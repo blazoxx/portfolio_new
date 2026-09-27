@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import HomeSection from "@/components/home/HomeSection";
 import HomeSitemap from "@/components/home/HomeSitemap";
 import ProjectsSection from "@/components/home/ProjectsSection";
-
+import CircleLanding from "@/components/home/CircleLanding";
 
 const sections = [
   { id: "projects", label: "Projects" },
@@ -30,7 +30,7 @@ export default function Home() {
       },
       {
         threshold: [0.25, 0.5, 0.75],
-      }
+      },
     );
 
     sections.forEach(({ id }) => {
@@ -46,7 +46,7 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowSitemap(window.scrollY >= window.innerHeight * 0.5);
+      setShowSitemap(window.scrollY >= window.innerHeight * 1.5);
     };
 
     handleScroll();
@@ -56,28 +56,21 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
+    <main className="relative">
       <HomeSitemap
         sections={sections}
         activeSection={activeSection}
         visible={showSitemap}
       />
 
-      <HomeSection id="landing">
-        <div className="text-center">
-          <p className="mb-4 text-sm uppercase tracking-[0.3em] text-white/40">
-            Welcome
-          </p>
-
-          <h1 className="text-8xl font-bold tracking-tight">
-            CASII
-          </h1>
-        </div>
-      </HomeSection>
+      <div className="relative h-[200vh]">
+        <CircleLanding />
+      </div>
 
       <ProjectsSection />
 
-      <HomeSection id="skills">
+      <HomeSection id="skills" className="relative z-20 bg-black">
+        {" "}
         <h1 className="text-6xl font-bold">Skills</h1>
       </HomeSection>
 
