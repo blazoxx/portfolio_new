@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import HomeSection from "@/components/home/HomeSection";
 import HomeSitemap from "@/components/home/HomeSitemap";
+import ProjectsSection from "@/components/home/ProjectsSection";
+
 
 const sections = [
   { id: "projects", label: "Projects" },
@@ -73,9 +75,7 @@ export default function Home() {
         </div>
       </HomeSection>
 
-      <HomeSection id="projects">
-        <h1 className="text-6xl font-bold">Projects</h1>
-      </HomeSection>
+      <ProjectsSection />
 
       <HomeSection id="skills">
         <h1 className="text-6xl font-bold">Skills</h1>
