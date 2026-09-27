@@ -13,6 +13,7 @@ const sections = [
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("projects");
+  const [showSitemap, setShowSitemap] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -41,13 +42,36 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowSitemap(window.scrollY >= window.innerHeight * 0.5);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <main>
       <HomeSitemap
         sections={sections}
         activeSection={activeSection}
-        visible={true}
+        visible={showSitemap}
       />
+
+      <HomeSection id="landing">
+        <div className="text-center">
+          <p className="mb-4 text-sm uppercase tracking-[0.3em] text-white/40">
+            Welcome
+          </p>
+
+          <h1 className="text-8xl font-bold tracking-tight">
+            CASII
+          </h1>
+        </div>
+      </HomeSection>
 
       <HomeSection id="projects">
         <h1 className="text-6xl font-bold">Projects</h1>

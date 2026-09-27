@@ -20,3 +20,11 @@ body {
 body {
   min-height: 100vh;
 }
+
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
