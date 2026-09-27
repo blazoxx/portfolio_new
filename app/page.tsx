@@ -5,9 +5,11 @@ import HomeSection from "@/components/home/HomeSection";
 import HomeSitemap from "@/components/home/HomeSitemap";
 import ProjectsSection from "@/components/home/ProjectsSection";
 import CircleLanding from "@/components/home/CircleLanding";
+import AboutPage from "@/app/about/page";
 
 const sections = [
   { id: "projects", label: "Projects" },
+  { id: "about", label: "About" },
   { id: "skills", label: "Skills" },
   { id: "personal", label: "Personal" },
   { id: "contact", label: "Contact" },
@@ -46,7 +48,11 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowSitemap(window.scrollY >= window.innerHeight * 1.5);
+      const projects = document.getElementById("projects");
+
+      if (!projects) return;
+
+      setShowSitemap(window.scrollY >= projects.offsetTop);
     };
 
     handleScroll();
@@ -69,8 +75,9 @@ export default function Home() {
 
       <ProjectsSection />
 
+      <AboutPage />
+
       <HomeSection id="skills" className="relative z-20 bg-black">
-        {" "}
         <h1 className="text-6xl font-bold">Skills</h1>
       </HomeSection>
 

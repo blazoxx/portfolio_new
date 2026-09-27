@@ -24,9 +24,9 @@ export default function HomeSitemap({
   };
 
   return (
-    <aside className="pointer-events-none fixed inset-y-0 left-0 z-30 flex items-center">
+    <aside className="pointer-events-none fixed inset-y-0 left-0 z-100 flex items-center">
       <div className="pointer-events-auto relative ml-6 flex flex-col gap-8">
-        <div className="absolute left-[3px] top-1 bottom-1 w-px bg-white/15" />
+        <div className="absolute left-0.75 top-1 bottom-1 w-px bg-white/15" />
         
         {sections.map((section) => {
           const active = section.id === activeSection;
