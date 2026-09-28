@@ -3,6 +3,7 @@ import ScrollRevealText from "@/components/about/ScrollRevealText";
 export default function AboutPage() {
   return (
     <section
+      data-cursor="poem"
       id="about"
       className="relative z-40 min-h-[250vh] bg-black"
     >

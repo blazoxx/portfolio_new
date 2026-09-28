@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SiteHeader from "@/components/layout/SIteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
+import CustomCursor from "@/components/cursor/CustomCursor";
 
 export const metadata: Metadata = {
   title: "CASII",
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <CustomCursor />
         <SiteHeader />
         {children}
         <SiteFooter />

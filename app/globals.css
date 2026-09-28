@@ -42,3 +42,25 @@ html::-webkit-scrollbar {
 section {
   scroll-snap-align: start;
 }
+
+* {
+  cursor: none;
+}
+
+.cursor-dot {
+  transform: scale(1);
+}
+
+body:has(a:hover) .cursor-dot,
+body:has(button:hover) .cursor-dot {
+  transform: scale(2.5);
+}
+
+.cursor-poem {
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+body:has([data-cursor="poem"]:hover) .cursor-poem {
+  opacity: 1;
+}
