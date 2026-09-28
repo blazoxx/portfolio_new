@@ -1,6 +1,6 @@
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="relative z-10 min-h-[300vh] bg-black">
+    <section id="projects" className="relative z-10 min-h-[320vh] bg-black">
       {/* Project 01 */}
       <div className="sticky top-0 flex h-screen items-center justify-center bg-emerald-950">
         <div className="grid w-full max-w-7xl gap-12 px-6 md:grid-cols-[1.2fr_0.8fr] md:items-center">

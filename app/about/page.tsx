@@ -4,7 +4,7 @@ export default function AboutPage() {
   return (
     <section
       id="about"
-      className="relative z-40 min-h-[200vh] bg-black"
+      className="relative z-40 min-h-[250vh] bg-black"
     >
       <div className="sticky top-0 flex h-screen items-center">
         <div className="mx-auto w-full max-w-7xl px-6">
