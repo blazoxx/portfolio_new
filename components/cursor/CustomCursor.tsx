@@ -30,6 +30,13 @@ export default function CustomCursor() {
       }
     };
 
+    const handleSectionChange = (event: Event) => {
+      const customEvent = event as CustomEvent<string>;
+      const section = customEvent.detail;
+
+      setMode(section === "about" ? "poem" : "default");
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
 
     document.documentElement.addEventListener(
@@ -40,6 +47,11 @@ export default function CustomCursor() {
     document.documentElement.addEventListener(
       "mouseleave",
       handleMouseLeave,
+    );
+
+    window.addEventListener(
+      "home-section-change",
+      handleSectionChange,
     );
 
     let animationFrame: number;
@@ -64,43 +76,6 @@ export default function CustomCursor() {
 
     animationFrame = requestAnimationFrame(animate);
 
-    const sections = document.querySelectorAll(
-      "[data-cursor]",
-    );
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              b.intersectionRatio - a.intersectionRatio,
-          );
-
-        if (!visible[0]) {
-          setMode("default");
-          return;
-        }
-
-        const sectionMode =
-          visible[0].target.getAttribute("data-cursor");
-
-        if (
-          sectionMode === "poem" ||
-          sectionMode === "sketch"
-        ) {
-          setMode(sectionMode);
-        } else {
-          setMode("default");
-        }
-      },
-      {
-        threshold: [0.25, 0.5, 0.75],
-      },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
     return () => {
       window.removeEventListener(
         "mousemove",
@@ -117,7 +92,11 @@ export default function CustomCursor() {
         handleMouseLeave,
       );
 
-      observer.disconnect();
+      window.removeEventListener(
+        "home-section-change",
+        handleSectionChange,
+      );
+
       cancelAnimationFrame(animationFrame);
     };
   }, []);

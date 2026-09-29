@@ -19,7 +19,9 @@ export default function CircleLanding() {
   }, [entered]);
 
   useEffect(() => {
-    document.body.style.overflow = entered ? "" : "hidden";
+    const shouldLock = !entered && window.scrollY < window.innerHeight * 0.5;
+
+    document.body.style.overflow = shouldLock ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";

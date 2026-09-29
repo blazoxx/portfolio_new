@@ -22,16 +22,23 @@ export default function Home() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        const active = entries.find((entry) => entry.isIntersecting);
 
-        if (visible[0]) {
-          setActiveSection(visible[0].target.id);
-        }
+        if (!active) return;
+
+        const sectionId = active.target.id;
+
+        setActiveSection(sectionId);
+
+        window.dispatchEvent(
+          new CustomEvent("home-section-change", {
+            detail: sectionId,
+          }),
+        );
       },
       {
-        threshold: [0.1, 0.25, 0.5, 0.75, 0.9],
+        rootMargin: "-45% 0px -45% 0px",
+        threshold: 0,
       },
     );
 
