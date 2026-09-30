@@ -15,39 +15,41 @@ export default function PatheyatraPage() {
       id: "overview",
       label: "Overview",
       eyebrow: "01 — Overview",
-      title: "What is it?",
+      title: "AI-powered travel planning",
       content:
-        "A multi-agent AI travel planner that researches destinations, weather, budgets, and itineraries through an orchestrated workflow.",
+        "Pātheyātrā AI is a multi-agent travel planning system that transforms a natural-language travel request into structured destination insights, weather information, budget estimates, and a day-wise itinerary.",
     },
     {
       id: "problem",
       label: "Problem",
       eyebrow: "02 — Problem",
-      title: "The problem",
+      title: "Travel planning is fragmented",
       content:
-        "Planning a trip requires combining information from multiple sources, understanding user preferences, estimating costs, and turning everything into a practical itinerary.",
+        "Planning a trip requires combining several kinds of information: understanding the traveller's intent, researching destinations, considering weather, estimating costs, and organizing everything into a practical itinerary. Handling these tasks as one large AI workflow can make the system difficult to structure and extend.",
     },
     {
       id: "solution",
       label: "Solution",
       eyebrow: "03 — Solution",
-      title: "The solution",
+      title: "Specialized agents, one workflow",
       content:
-        "Pātheyātrā AI uses multiple specialized agents coordinated through a central workflow to transform a natural-language travel request into structured travel information and an itinerary.",
+        "Pātheyātrā AI separates the planning process into specialized agents. A central orchestration layer coordinates the agents and passes structured information between them before producing the final travel plan.",
     },
     {
       id: "features",
-      label: "Features",
+      label: "Core Features",
       eyebrow: "04 — Features",
-      title: "Core features",
+      title: "From intent to itinerary",
       content: (
         <ul className="space-y-4">
           <li>Natural-language travel planning</li>
-          <li>Destination research</li>
-          <li>Weather information</li>
+          <li>Intent extraction from user requests</li>
+          <li>Destination research and recommendations</li>
+          <li>Live weather integration</li>
           <li>Day-wise itinerary generation</li>
-          <li>Budget estimation</li>
-          <li>Multi-agent orchestration</li>
+          <li>Smart budget estimation</li>
+          <li>Structured JSON-based agent communication</li>
+          <li>Asynchronous workflow orchestration</li>
         </ul>
       ),
     },
@@ -55,24 +57,80 @@ export default function PatheyatraPage() {
       id: "agents",
       label: "AI Agents",
       eyebrow: "05 — AI Agents",
-      title: "The agent system",
+      title: "A team of specialized agents",
       content: (
-        <ul className="space-y-4">
-          <li>Intent Agent</li>
-          <li>Research Agent</li>
-          <li>Weather Agent</li>
-          <li>Itinerary Agent</li>
-          <li>Budget Agent</li>
-        </ul>
+        <div className="space-y-8">
+          <div>
+            <h3 className="text-xl font-medium text-white">
+              Intent Agent
+            </h3>
+            <p className="mt-2">
+              Extracts the user&apos;s travel requirements and converts
+              natural language into structured intent.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-medium text-white">
+              Research Agent
+            </h3>
+            <p className="mt-2">
+              Handles destination research and generates relevant
+              travel insights.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-medium text-white">
+              Weather Agent
+            </h3>
+            <p className="mt-2">
+              Provides weather information relevant to the planned
+              destination and trip.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-medium text-white">
+              Itinerary Agent
+            </h3>
+            <p className="mt-2">
+              Converts the gathered information into a structured
+              day-wise travel itinerary.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-medium text-white">
+              Budget Agent
+            </h3>
+            <p className="mt-2">
+              Estimates the expected travel budget from the available
+              trip information.
+            </p>
+          </div>
+        </div>
       ),
     },
     {
       id: "architecture",
       label: "Architecture",
       eyebrow: "06 — Architecture",
-      title: "Multi-agent architecture",
+      title: "Multi-agent orchestration",
       content: (
-        <div className="aspect-video border border-white/10 bg-white/[0.03]" />
+        <div className="space-y-6">
+          <p>
+            The system uses a FastAPI backend to coordinate the
+            different agents and maintain a structured flow of
+            information between them.
+          </p>
+
+          <div className="aspect-video border border-white/10 bg-white/[0.03] flex items-center justify-center">
+            <span className="text-xs uppercase tracking-[0.25em] text-white/20">
+              Multi-Agent Architecture
+            </span>
+          </div>
+        </div>
       ),
     },
     {
@@ -80,23 +138,31 @@ export default function PatheyatraPage() {
       label: "Tech Stack",
       eyebrow: "07 — Tech Stack",
       title: "Built with",
-      content: project.stack.join(" · "),
+      content: (
+        <ul className="space-y-4">
+          <li>Python — core application logic</li>
+          <li>FastAPI — backend API</li>
+          <li>Gemini API — AI generation and reasoning</li>
+          <li>Asynchronous orchestration — agent workflow</li>
+          <li>OpenWeatherMap API — weather integration</li>
+        </ul>
+      ),
     },
     {
       id: "challenges",
       label: "Challenges",
       eyebrow: "08 — Challenges",
-      title: "What was difficult",
+      title: "Orchestrating multiple AI agents",
       content:
-        "The project required coordinating multiple AI agents, structuring their communication, handling external information, and maintaining a consistent workflow from user intent to final itinerary.",
+        "The main challenge was coordinating specialized agents while keeping communication between them structured and predictable. The project also involved handling external APIs and AI-service constraints while maintaining a consistent workflow from user intent to the final itinerary.",
     },
     {
       id: "outcome",
       label: "Outcome",
       eyebrow: "09 — Outcome",
-      title: "The result",
+      title: "A modular AI travel planner",
       content:
-        "A modular AI travel-planning system demonstrating how specialized agents can be orchestrated to produce structured travel recommendations.",
+        "The result is a modular multi-agent travel-planning system demonstrating how specialized AI agents can work together to transform an unstructured travel request into structured recommendations, budget information, weather context, and an itinerary.",
     },
   ];
 
@@ -136,6 +202,7 @@ export default function PatheyatraPage() {
             <p className="text-xs uppercase tracking-[0.2em] text-white/25">
               Role
             </p>
+
             <p className="mt-3 text-sm text-white/60">
               {project.role}
             </p>
@@ -145,6 +212,7 @@ export default function PatheyatraPage() {
             <p className="text-xs uppercase tracking-[0.2em] text-white/25">
               Stack
             </p>
+
             <p className="mt-3 text-sm text-white/60">
               {project.stack.join(" · ")}
             </p>
@@ -154,13 +222,18 @@ export default function PatheyatraPage() {
             <p className="text-xs uppercase tracking-[0.2em] text-white/25">
               Type
             </p>
+
             <p className="mt-3 text-sm text-white/60">
               AI / Multi-Agent
             </p>
           </div>
         </div>
 
-        <div className="mt-20 aspect-video border border-white/10 bg-white/[0.03]" />
+        <div className="mt-20 aspect-video border border-white/10 bg-white/[0.03] flex items-center justify-center">
+          <span className="text-xs uppercase tracking-[0.25em] text-white/20">
+            Project Preview
+          </span>
+        </div>
 
         <ProjectCaseStudy
           project={project}
