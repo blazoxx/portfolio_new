@@ -10,24 +10,57 @@ export default function CustomCursor() {
   const mouse = useRef({ x: 0, y: 0 });
   const position = useRef({ x: 0, y: 0 });
 
+  const scrollbarDragging = useRef(false);
+
   const [mode, setMode] = useState<CursorMode>("default");
 
   useEffect(() => {
+    const setCursorVisible = (visible: boolean) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.opacity = visible ? "1" : "0";
+      }
+    };
+
+    const isOverScrollbar = (event: MouseEvent) => {
+      const element = document.elementFromPoint(
+        event.clientX,
+        event.clientY,
+      );
+
+      const scrollbar = element?.closest(
+        ".custom-scrollbar",
+      );
+
+      if (!scrollbar) return false;
+
+      const rect = scrollbar.getBoundingClientRect();
+
+      // Small zone on the right side reserved for the scrollbar.
+      return event.clientX >= rect.right - 10;
+    };
+
     const handleMouseMove = (event: MouseEvent) => {
       mouse.current.x = event.clientX;
       mouse.current.y = event.clientY;
+
+      if (scrollbarDragging.current) {
+        setCursorVisible(false);
+        return;
+      }
+
+      setCursorVisible(!isOverScrollbar(event));
     };
 
-    const handleMouseEnter = () => {
-      if (cursorRef.current) {
-        cursorRef.current.style.opacity = "1";
+    const handleMouseDown = (event: MouseEvent) => {
+      if (isOverScrollbar(event)) {
+        scrollbarDragging.current = true;
+        setCursorVisible(false);
       }
     };
 
-    const handleMouseLeave = () => {
-      if (cursorRef.current) {
-        cursorRef.current.style.opacity = "0";
-      }
+    const handleMouseUp = () => {
+      scrollbarDragging.current = false;
+      setCursorVisible(true);
     };
 
     const handleSectionChange = (event: Event) => {
@@ -38,16 +71,8 @@ export default function CustomCursor() {
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-
-    document.documentElement.addEventListener(
-      "mouseenter",
-      handleMouseEnter,
-    );
-
-    document.documentElement.addEventListener(
-      "mouseleave",
-      handleMouseLeave,
-    );
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
 
     window.addEventListener(
       "home-section-change",
@@ -82,14 +107,14 @@ export default function CustomCursor() {
         handleMouseMove,
       );
 
-      document.documentElement.removeEventListener(
-        "mouseenter",
-        handleMouseEnter,
+      window.removeEventListener(
+        "mousedown",
+        handleMouseDown,
       );
 
-      document.documentElement.removeEventListener(
-        "mouseleave",
-        handleMouseLeave,
+      window.removeEventListener(
+        "mouseup",
+        handleMouseUp,
       );
 
       window.removeEventListener(
