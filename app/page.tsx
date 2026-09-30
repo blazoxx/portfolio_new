@@ -5,7 +5,7 @@ import HomeSection from "@/components/home/HomeSection";
 import HomeSitemap from "@/components/home/HomeSitemap";
 import ProjectsSection from "@/components/home/ProjectsSection";
 import CircleLanding from "@/components/home/CircleLanding";
-import AboutPage from "@/app/about/page";
+import HomeAbout from "@/components/about/HomeAbout";
 
 const sections = [
   { id: "projects", label: "Projects" },
@@ -82,8 +82,8 @@ export default function Home() {
 
       <ProjectsSection />
 
-      <AboutPage />
-
+      <HomeAbout />
+      
       <HomeSection id="skills" className="relative z-20 bg-black">
         <div className="w-full">
           <p className="mb-6 text-sm uppercase tracking-[0.3em] text-white/40">
