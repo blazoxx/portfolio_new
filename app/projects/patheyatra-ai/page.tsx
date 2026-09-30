@@ -1,9 +1,9 @@
 import { projects } from "@/data/projects";
 import ProjectCaseStudy from "@/components/projects/ProjectCaseStudy";
 
-export default function RealmOfSixPage() {
+export default function PatheyatraPage() {
   const project = projects.find(
-    (item) => item.id === "realm-of-six",
+    (item) => item.id === "patheyatra-ai",
   );
 
   if (!project) {
@@ -17,7 +17,7 @@ export default function RealmOfSixPage() {
       eyebrow: "01 — Overview",
       title: "What is it?",
       content:
-        "A live treasure hunt platform created for a college cultural fest, combining a digital experience with a large-scale offline event.",
+        "A multi-agent AI travel planner that researches destinations, weather, budgets, and itineraries through an orchestrated workflow.",
     },
     {
       id: "problem",
@@ -25,7 +25,7 @@ export default function RealmOfSixPage() {
       eyebrow: "02 — Problem",
       title: "The problem",
       content:
-        "A live campus-wide treasure hunt requires more than an event website. Participants, organizers, rounds, clues, and progression need to work together during a real-time physical event.",
+        "Planning a trip requires combining information from multiple sources, understanding user preferences, estimating costs, and turning everything into a practical itinerary.",
     },
     {
       id: "solution",
@@ -33,7 +33,7 @@ export default function RealmOfSixPage() {
       eyebrow: "03 — Solution",
       title: "The solution",
       content:
-        "Realm of Six combined a dedicated digital platform with the physical treasure hunt experience, providing the technology layer required to run and manage the event.",
+        "Pātheyātrā AI uses multiple specialized agents coordinated through a central workflow to transform a natural-language travel request into structured travel information and an itinerary.",
     },
     {
       id: "features",
@@ -42,27 +42,35 @@ export default function RealmOfSixPage() {
       title: "Core features",
       content: (
         <ul className="space-y-4">
-          <li>Interactive treasure hunt platform</li>
-          <li>Multi-round event structure</li>
-          <li>Online preliminary round</li>
-          <li>Live participant experience</li>
-          <li>Digital event coordination</li>
+          <li>Natural-language travel planning</li>
+          <li>Destination research</li>
+          <li>Weather information</li>
+          <li>Day-wise itinerary generation</li>
+          <li>Budget estimation</li>
+          <li>Multi-agent orchestration</li>
         </ul>
       ),
     },
     {
-      id: "event",
-      label: "The Event",
-      eyebrow: "05 — The Event",
-      title: "From website to live event",
-      content:
-        "The platform was built as part of a Game of Thrones-themed treasure hunt for the college cultural fest, supporting the digital side of an event involving participants across the campus.",
+      id: "agents",
+      label: "AI Agents",
+      eyebrow: "05 — AI Agents",
+      title: "The agent system",
+      content: (
+        <ul className="space-y-4">
+          <li>Intent Agent</li>
+          <li>Research Agent</li>
+          <li>Weather Agent</li>
+          <li>Itinerary Agent</li>
+          <li>Budget Agent</li>
+        </ul>
+      ),
     },
     {
       id: "architecture",
       label: "Architecture",
       eyebrow: "06 — Architecture",
-      title: "Platform architecture",
+      title: "Multi-agent architecture",
       content: (
         <div className="aspect-video border border-white/10 bg-white/[0.03]" />
       ),
@@ -80,7 +88,7 @@ export default function RealmOfSixPage() {
       eyebrow: "08 — Challenges",
       title: "What was difficult",
       content:
-        "The main challenge was building a digital experience that could support a physical event with multiple rounds, participants, and time-sensitive interactions while also coordinating the broader event.",
+        "The project required coordinating multiple AI agents, structuring their communication, handling external information, and maintaining a consistent workflow from user intent to final itinerary.",
     },
     {
       id: "outcome",
@@ -88,7 +96,7 @@ export default function RealmOfSixPage() {
       eyebrow: "09 — Outcome",
       title: "The result",
       content:
-        "A functioning digital platform integrated into a live college treasure hunt, combining software development with event leadership and execution.",
+        "A modular AI travel-planning system demonstrating how specialized agents can be orchestrated to produce structured travel recommendations.",
     },
   ];
 
@@ -147,7 +155,7 @@ export default function RealmOfSixPage() {
               Type
             </p>
             <p className="mt-3 text-sm text-white/60">
-              Event / Platform
+              AI / Multi-Agent
             </p>
           </div>
         </div>

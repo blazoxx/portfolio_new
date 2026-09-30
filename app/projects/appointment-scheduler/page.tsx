@@ -1,9 +1,9 @@
 import { projects } from "@/data/projects";
 import ProjectCaseStudy from "@/components/projects/ProjectCaseStudy";
 
-export default function RealmOfSixPage() {
+export default function AppointmentSchedulerPage() {
   const project = projects.find(
-    (item) => item.id === "realm-of-six",
+    (item) => item.id === "appointment-scheduler",
   );
 
   if (!project) {
@@ -17,7 +17,7 @@ export default function RealmOfSixPage() {
       eyebrow: "01 — Overview",
       title: "What is it?",
       content:
-        "A live treasure hunt platform created for a college cultural fest, combining a digital experience with a large-scale offline event.",
+        "An AI-powered appointment scheduling platform designed to manage availability, bookings, rescheduling, cancellations, and intelligent slot selection.",
     },
     {
       id: "problem",
@@ -25,7 +25,7 @@ export default function RealmOfSixPage() {
       eyebrow: "02 — Problem",
       title: "The problem",
       content:
-        "A live campus-wide treasure hunt requires more than an event website. Participants, organizers, rounds, clues, and progression need to work together during a real-time physical event.",
+        "Scheduling involves more than displaying an empty calendar. Users need to understand availability, choose suitable slots, and manage changes without unnecessary friction.",
     },
     {
       id: "solution",
@@ -33,7 +33,7 @@ export default function RealmOfSixPage() {
       eyebrow: "03 — Solution",
       title: "The solution",
       content:
-        "Realm of Six combined a dedicated digital platform with the physical treasure hunt experience, providing the technology layer required to run and manage the event.",
+        "The platform combines structured scheduling functionality with an AI agent capable of understanding natural-language requests and finding suitable available slots.",
     },
     {
       id: "features",
@@ -42,27 +42,27 @@ export default function RealmOfSixPage() {
       title: "Core features",
       content: (
         <ul className="space-y-4">
-          <li>Interactive treasure hunt platform</li>
-          <li>Multi-round event structure</li>
-          <li>Online preliminary round</li>
-          <li>Live participant experience</li>
-          <li>Digital event coordination</li>
+          <li>Availability management</li>
+          <li>Recurring schedules</li>
+          <li>Booking and rescheduling</li>
+          <li>Cancellation handling</li>
+          <li>AI-powered slot selection</li>
         </ul>
       ),
     },
     {
-      id: "event",
-      label: "The Event",
-      eyebrow: "05 — The Event",
-      title: "From website to live event",
+      id: "ai-agent",
+      label: "AI Agent",
+      eyebrow: "05 — AI Agent",
+      title: "Natural-language scheduling",
       content:
-        "The platform was built as part of a Game of Thrones-themed treasure hunt for the college cultural fest, supporting the digital side of an event involving participants across the campus.",
+        "The AI agent interprets a scheduling request, reads the available schedule, traces suitable empty slots, and helps determine an appropriate booking option.",
     },
     {
       id: "architecture",
       label: "Architecture",
       eyebrow: "06 — Architecture",
-      title: "Platform architecture",
+      title: "System architecture",
       content: (
         <div className="aspect-video border border-white/10 bg-white/[0.03]" />
       ),
@@ -80,7 +80,7 @@ export default function RealmOfSixPage() {
       eyebrow: "08 — Challenges",
       title: "What was difficult",
       content:
-        "The main challenge was building a digital experience that could support a physical event with multiple rounds, participants, and time-sensitive interactions while also coordinating the broader event.",
+        "The project required coordinating scheduling logic, availability management, booking flows, and AI-assisted interaction into one consistent system.",
     },
     {
       id: "outcome",
@@ -88,7 +88,7 @@ export default function RealmOfSixPage() {
       eyebrow: "09 — Outcome",
       title: "The result",
       content:
-        "A functioning digital platform integrated into a live college treasure hunt, combining software development with event leadership and execution.",
+        "A working scheduling platform that combines conventional appointment management with an AI-driven interface for finding suitable appointment slots.",
     },
   ];
 
@@ -147,7 +147,7 @@ export default function RealmOfSixPage() {
               Type
             </p>
             <p className="mt-3 text-sm text-white/60">
-              Event / Platform
+              SaaS / AI
             </p>
           </div>
         </div>
