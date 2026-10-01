@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
 export default function PlaygroundPage() {
   const parts = [
     "Face",
@@ -11,6 +15,142 @@ export default function PlaygroundPage() {
   ];
 
   const options = ["01", "02", "03", "04", "05", "06"];
+
+  const customizeRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const thumbRef = useRef<HTMLDivElement>(null);
+
+  const [thumbHeight, setThumbHeight] = useState(0);
+  const [thumbTop, setThumbTop] = useState(0);
+
+  const dragging = useRef(false);
+  const dragStartY = useRef(0);
+  const dragStartScroll = useRef(0);
+
+  useEffect(() => {
+    const updateScrollbar = () => {
+      const content = customizeRef.current;
+      const track = trackRef.current;
+
+      if (!content || !track) return;
+
+      const visibleHeight = content.clientHeight;
+      const scrollHeight = content.scrollHeight;
+      const trackHeight = track.clientHeight;
+
+      if (scrollHeight <= visibleHeight) {
+        setThumbHeight(trackHeight);
+        setThumbTop(0);
+        return;
+      }
+
+      const height = Math.max(
+        40,
+        (visibleHeight / scrollHeight) * trackHeight,
+      );
+
+      const maxTop = trackHeight - height;
+      const top =
+        (content.scrollTop /
+          (scrollHeight - visibleHeight)) *
+        maxTop;
+
+      setThumbHeight(height);
+      setThumbTop(top);
+    };
+
+    updateScrollbar();
+
+    const content = customizeRef.current;
+
+    content?.addEventListener("scroll", updateScrollbar);
+    window.addEventListener("resize", updateScrollbar);
+
+    return () => {
+      content?.removeEventListener("scroll", updateScrollbar);
+      window.removeEventListener("resize", updateScrollbar);
+    };
+  }, []);
+
+  const handleThumbPointerDown = (
+    event: React.PointerEvent<HTMLDivElement>,
+  ) => {
+    const content = customizeRef.current;
+
+    if (!content) return;
+
+    dragging.current = true;
+    dragStartY.current = event.clientY;
+    dragStartScroll.current = content.scrollTop;
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleThumbPointerMove = (
+    event: React.PointerEvent<HTMLDivElement>,
+  ) => {
+    if (!dragging.current) return;
+
+    const content = customizeRef.current;
+    const track = trackRef.current;
+
+    if (!content || !track) return;
+
+    const trackHeight = track.clientHeight;
+    const maxThumbTop = trackHeight - thumbHeight;
+
+    if (maxThumbTop <= 0) return;
+
+    const deltaY = event.clientY - dragStartY.current;
+
+    const scrollableHeight =
+      content.scrollHeight - content.clientHeight;
+
+    const scrollDelta =
+      (deltaY / maxThumbTop) * scrollableHeight;
+
+    content.scrollTop =
+      dragStartScroll.current + scrollDelta;
+  };
+
+  const handleThumbPointerUp = (
+    event: React.PointerEvent<HTMLDivElement>,
+  ) => {
+    dragging.current = false;
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  const handleTrackPointerDown = (
+    event: React.PointerEvent<HTMLDivElement>,
+  ) => {
+    if (event.target !== event.currentTarget) return;
+
+    const content = customizeRef.current;
+    const track = trackRef.current;
+
+    if (!content || !track) return;
+
+    const rect = track.getBoundingClientRect();
+    const clickPosition = event.clientY - rect.top;
+
+    const maxThumbTop = rect.height - thumbHeight;
+    const targetTop =
+      clickPosition - thumbHeight / 2;
+
+    const clampedTop = Math.max(
+      0,
+      Math.min(targetTop, maxThumbTop),
+    );
+
+    const scrollableHeight =
+      content.scrollHeight - content.clientHeight;
+
+    content.scrollTop =
+      (clampedTop / maxThumbTop) * scrollableHeight;
+  };
 
   return (
     <main className="bg-black text-white">
@@ -66,60 +206,94 @@ export default function PlaygroundPage() {
               </div>
 
               {/* Parts Panel */}
-              <div className="custom-scrollbar min-h-0 overflow-y-auto border border-white/10 bg-white/[0.02] p-5">
-                <p className="text-[10px] uppercase tracking-[0.25em] text-white/25">
-                  Customize
-                </p>
+              <div className="relative min-h-0 border border-white/10 bg-white/[0.02]">
+                <div
+                  ref={customizeRef}
+                  className="h-full overflow-y-auto overscroll-contain p-5 pr-7"
+                  style={{
+                    scrollbarWidth: "none",
+                    msOverflowStyle: "none",
+                  }}
+                >
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-white/25">
+                    Customize
+                  </p>
 
-                <div className="mt-5 flex flex-col">
-                  {parts.map((part, index) => {
-                    const opensAbove = index >= 4;
+                  <div className="mt-5 flex flex-col">
+                    {parts.map((part, index) => {
+                      const opensAbove = index >= 4;
 
-                    return (
-                      <div key={part} className="group relative">
-                        {/* Part Button */}
-                        <button
-                          type="button"
-                          className="relative z-10 flex w-full items-center justify-between border border-white/10 bg-black px-4 py-4 text-left text-xs uppercase tracking-[0.15em] text-white/45 transition hover:border-white/30 hover:text-white"
-                        >
-                          <span>{part}</span>
-
-                          <span className="text-white/20 transition group-hover:translate-x-1 group-hover:text-white/60">
-                            →
-                          </span>
-                        </button>
-
-                        {/* Options */}
+                      return (
                         <div
-                          className={`pointer-events-none absolute left-0 z-50 w-full border border-white/10 bg-black p-4 opacity-0 shadow-2xl transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100 ${
-                            opensAbove ? "bottom-full" : "top-full"
-                          }`}
+                          key={part}
+                          className="group relative"
                         >
-                          <p className="mb-3 text-[10px] uppercase tracking-[0.2em] text-white/25">
-                            Choose {part}
-                          </p>
+                          {/* Part Button */}
+                          <button
+                            type="button"
+                            className="relative z-10 flex w-full items-center justify-between border border-white/10 bg-black px-4 py-4 text-left text-xs uppercase tracking-[0.15em] text-white/45 transition hover:border-white/30 hover:text-white"
+                          >
+                            <span>{part}</span>
 
-                          <div className="grid grid-cols-3 gap-1">
-                            {options.map((option) => (
-                              <button
-                                key={option}
-                                type="button"
-                                className="aspect-square border border-white/10 bg-white/[0.03] text-[10px] text-white/30 transition hover:border-white/30 hover:bg-white/[0.06] hover:text-white"
-                              >
-                                {option}
-                              </button>
-                            ))}
+                            <span className="text-white/20 transition group-hover:translate-x-1 group-hover:text-white/60">
+                              →
+                            </span>
+                          </button>
+
+                          {/* Options */}
+                          <div
+                            className={`pointer-events-none absolute left-0 z-50 w-full border border-white/10 bg-black p-4 opacity-0 shadow-2xl transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100 ${
+                              opensAbove
+                                ? "bottom-full"
+                                : "top-full"
+                            }`}
+                          >
+                            <p className="mb-3 text-[10px] uppercase tracking-[0.2em] text-white/25">
+                              Choose {part}
+                            </p>
+
+                            <div className="grid grid-cols-3 gap-1">
+                              {options.map((option) => (
+                                <button
+                                  key={option}
+                                  type="button"
+                                  className="aspect-square border border-white/10 bg-white/[0.03] text-[10px] text-white/30 transition hover:border-white/30 hover:bg-white/[0.06] hover:text-white"
+                                >
+                                  {option}
+                                </button>
+                              ))}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Custom Scrollbar */}
+                <div
+                  ref={trackRef}
+                  onPointerDown={handleTrackPointerDown}
+                  className="absolute right-2 top-5 bottom-5 w-1.5 rounded-full bg-white/[0.04]"
+                >
+                  <div
+                    ref={thumbRef}
+                    onPointerDown={handleThumbPointerDown}
+                    onPointerMove={handleThumbPointerMove}
+                    onPointerUp={handleThumbPointerUp}
+                    onPointerCancel={handleThumbPointerUp}
+                    className="absolute left-0 w-full touch-none rounded-full bg-white/20 transition-colors hover:bg-white/40"
+                    style={{
+                      height: `${thumbHeight}px`,
+                      top: `${thumbTop}px`,
+                    }}
+                  />
                 </div>
               </div>
             </div>
 
             {/* Controls */}
-            <div className="relative z-10 mt-5 flex gap-3">
+            <div className="relative z-10 mt-3 flex gap-3">
               <button
                 type="button"
                 className="flex-1 border border-white/20 px-5 py-4 text-xs uppercase tracking-[0.2em] text-white/60 transition hover:border-white hover:text-white"
@@ -135,7 +309,7 @@ export default function PlaygroundPage() {
               </button>
             </div>
 
-            <p className="mt-4 text-center text-[10px] uppercase tracking-[0.2em] text-white/20">
+            <p className="mt-4 text-center text-[10px] uppercase tracking-[0.25em] text-white/20">
               Saved locally in your browser
             </p>
           </div>
