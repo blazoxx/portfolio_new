@@ -104,27 +104,37 @@ export default function CustomCursor() {
 
   const [mode, setMode] = useState<CursorMode>("default");
 
-  const [badgeActive, setBadgeActive] = useState(() =>
-    typeof window !== "undefined" &&
-    localStorage.getItem("casii-badge-cursor") === "true",
-  );
+  const [badgeActive, setBadgeActive] = useState(false);
 
-  const [avatar, setAvatar] = useState<AvatarOptions>(() => {
-    if (typeof window === "undefined") return {};
+  const [avatar, setAvatar] =
+    useState<AvatarOptions>({});
 
-    const savedAvatar = localStorage.getItem("casii-visitor-badge");
-
-    if (!savedAvatar) return {};
-
-    try {
-      return JSON.parse(savedAvatar) as AvatarOptions;
-    } catch {
-      return {};
-    }
-  });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // ...rest of your existing effect
+    setMounted(true);
+
+    /* ---------------- Saved Badge ---------------- */
+
+    const savedAvatar =
+      localStorage.getItem("casii-visitor-badge");
+
+    const savedCursor =
+      localStorage.getItem("casii-badge-cursor") ===
+      "true";
+
+    if (savedAvatar) {
+      try {
+        setAvatar(
+          JSON.parse(savedAvatar) as AvatarOptions,
+        );
+      } catch {
+        setAvatar({});
+      }
+    }
+
+    setBadgeActive(savedCursor);
+
     /* ---------------- Mouse ---------------- */
 
     const handleMouseMove = (event: MouseEvent) => {
@@ -139,62 +149,99 @@ export default function CustomCursor() {
     /* ---------------- Section ---------------- */
 
     const handleSectionChange = (event: Event) => {
-      const customEvent = event as CustomEvent<string>;
+      const customEvent =
+        event as CustomEvent<string>;
 
-      setMode(customEvent.detail === "about" ? "poem" : "default");
+      setMode(
+        customEvent.detail === "about"
+          ? "poem"
+          : "default",
+      );
     };
 
     /* ---------------- Badge Cursor ---------------- */
 
     const handleBadgeCursor = (event: Event) => {
-      const customEvent = event as CustomEvent<{
-        active: boolean;
-        avatar: AvatarOptions;
-      }>;
+      const customEvent =
+        event as CustomEvent<{
+          active: boolean;
+          avatar: AvatarOptions;
+        }>;
 
       setBadgeActive(customEvent.detail.active);
 
       setAvatar(customEvent.detail.avatar ?? {});
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener(
+      "mousemove",
+      handleMouseMove,
+    );
 
-    window.addEventListener("home-section-change", handleSectionChange);
+    window.addEventListener(
+      "home-section-change",
+      handleSectionChange,
+    );
 
-    window.addEventListener("badge-cursor-change", handleBadgeCursor);
+    window.addEventListener(
+      "badge-cursor-change",
+      handleBadgeCursor,
+    );
 
     /* ---------------- Animation ---------------- */
 
     let animationFrame: number;
 
     const animate = () => {
-      position.current.x += (mouse.current.x - position.current.x) * 0.15;
+      position.current.x +=
+        (mouse.current.x - position.current.x) *
+        0.15;
 
-      position.current.y += (mouse.current.y - position.current.y) * 0.15;
+      position.current.y +=
+        (mouse.current.y - position.current.y) *
+        0.15;
 
       if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate3d(
+        cursorRef.current.style.transform =
+          `translate3d(
             ${position.current.x}px,
             ${position.current.y}px,
             0
           )`;
       }
 
-      animationFrame = requestAnimationFrame(animate);
+      animationFrame =
+        requestAnimationFrame(animate);
     };
 
-    animationFrame = requestAnimationFrame(animate);
+    animationFrame =
+      requestAnimationFrame(animate);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener(
+        "mousemove",
+        handleMouseMove,
+      );
 
-      window.removeEventListener("home-section-change", handleSectionChange);
+      window.removeEventListener(
+        "home-section-change",
+        handleSectionChange,
+      );
 
-      window.removeEventListener("badge-cursor-change", handleBadgeCursor);
+      window.removeEventListener(
+        "badge-cursor-change",
+        handleBadgeCursor,
+      );
 
       cancelAnimationFrame(animationFrame);
     };
   }, []);
+
+  /* Prevent hydration mismatch */
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div
@@ -205,17 +252,17 @@ export default function CustomCursor() {
       }}
     >
       {badgeActive ? (
-        /*
-         * ============================
-         * AVATAR CURSOR
-         * ============================
-         */
+        /* ============================
+           AVATAR CURSOR
+           ============================ */
         <div className="relative h-14 w-14 -translate-x-1/2 -translate-y-1/2">
           {/* Face */}
           {avatar.Face && (
             <div
               className={`absolute inset-1 rounded-full ${
-                avatarParts.Face[avatar.Face as keyof typeof avatarParts.Face]
+                avatarParts.Face[
+                  avatar.Face as keyof typeof avatarParts.Face
+                ]
               }`}
             />
           )}
@@ -224,7 +271,9 @@ export default function CustomCursor() {
           {avatar.Hair && (
             <div
               className={`absolute left-2 right-2 top-0 ${
-                avatarParts.Hair[avatar.Hair as keyof typeof avatarParts.Hair]
+                avatarParts.Hair[
+                  avatar.Hair as keyof typeof avatarParts.Hair
+                ]
               }`}
             />
           )}
@@ -233,7 +282,9 @@ export default function CustomCursor() {
           {avatar.Hat && (
             <div
               className={`absolute left-3 right-3 ${
-                avatarParts.Hat[avatar.Hat as keyof typeof avatarParts.Hat]
+                avatarParts.Hat[
+                  avatar.Hat as keyof typeof avatarParts.Hat
+                ]
               }`}
             />
           )}
@@ -243,13 +294,17 @@ export default function CustomCursor() {
             <div className="absolute inset-0">
               <div
                 className={`absolute left-4 top-5 ${
-                  avatarParts.Eyes[avatar.Eyes as keyof typeof avatarParts.Eyes]
+                  avatarParts.Eyes[
+                    avatar.Eyes as keyof typeof avatarParts.Eyes
+                  ]
                 }`}
               />
 
               <div
                 className={`absolute right-4 top-5 ${
-                  avatarParts.Eyes[avatar.Eyes as keyof typeof avatarParts.Eyes]
+                  avatarParts.Eyes[
+                    avatar.Eyes as keyof typeof avatarParts.Eyes
+                  ]
                 }`}
               />
             </div>
@@ -303,11 +358,9 @@ export default function CustomCursor() {
           )}
         </div>
       ) : (
-        /*
-         * ============================
-         * NORMAL CURSOR
-         * ============================
-         */
+        /* ============================
+           NORMAL CURSOR
+           ============================ */
         <>
           <div className="cursor-dot h-3 w-3 rounded-full bg-white transition-transform duration-200" />
 
