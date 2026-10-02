@@ -29,7 +29,7 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-.home-scroll {
+html:has(.home-page) {
   scroll-snap-type: y proximity;
 }
 
