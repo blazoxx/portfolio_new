@@ -69,7 +69,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative">
+    <main className="home-scroll relative">
       <HomeSitemap
         sections={sections}
         activeSection={activeSection}
