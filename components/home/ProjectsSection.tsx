@@ -27,7 +27,7 @@ export default function ProjectsSection() {
             </p>
             <div className="mt-8">
               <a
-                href="/projects"
+                href="/projects/appointment-scheduler"
                 className="text-xs uppercase tracking-[0.25em] text-white/40 transition hover:text-white"
               >
                 Explore project →
@@ -85,7 +85,7 @@ export default function ProjectsSection() {
             </p>
             <div className="mt-8">
               <a
-                href="/projects"
+                href="/projects/patheyatra-ai"
                 className="text-xs uppercase tracking-[0.25em] text-white/40 transition hover:text-white"
               >
                 Explore project →
@@ -146,7 +146,7 @@ export default function ProjectsSection() {
             </p>
             <div className="mt-8">
               <a
-                href="/projects"
+                href="/projects/realm-of-six"
                 className="text-xs uppercase tracking-[0.25em] text-white/40 transition hover:text-white"
               >
                 Explore project →
@@ -186,16 +186,17 @@ export default function ProjectsSection() {
               Offline · Interactive · Event
             </div>
           </div>
-
-          <div className="right-10 bottom-10 absolute flex w-full max-w-7xl justify-end px-6 md:mt-0">
-            <a
-              href="/projects"
-              className="text-sm uppercase tracking-[0.2em] text-white/40 transition hover:text-white"
-            >
-              View all projects →
-            </a>
-          </div>
         </div>
+      </div>
+
+      {/* View all projects */}
+      <div className="absolute bottom-10 right-10 z-40">
+        <a
+          href="/projects"
+          className="text-sm uppercase tracking-[0.2em] text-white/40 transition hover:text-white"
+        >
+          View all projects →
+        </a>
       </div>
     </section>
   );

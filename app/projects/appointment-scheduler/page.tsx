@@ -15,38 +15,40 @@ export default function AppointmentSchedulerPage() {
       id: "overview",
       label: "Overview",
       eyebrow: "01 — Overview",
-      title: "What is it?",
+      title: "AI-powered appointment scheduling",
       content:
-        "An AI-powered appointment scheduling platform designed to manage availability, bookings, rescheduling, cancellations, and intelligent slot selection.",
+        "An appointment scheduling SaaS designed for clinics, consultants, and interview scheduling. The platform combines structured availability management with an AI agent that can understand natural-language scheduling requests and find suitable open slots.",
     },
     {
       id: "problem",
       label: "Problem",
       eyebrow: "02 — Problem",
-      title: "The problem",
+      title: "Scheduling is more than a calendar",
       content:
-        "Scheduling involves more than displaying an empty calendar. Users need to understand availability, choose suitable slots, and manage changes without unnecessary friction.",
+        "Appointment systems need to handle availability, recurring schedules, bookings, rescheduling, and cancellations while keeping the experience simple for both administrators and users. Finding a suitable slot can also require understanding the user's request and checking the available schedule.",
     },
     {
       id: "solution",
       label: "Solution",
       eyebrow: "03 — Solution",
-      title: "The solution",
+      title: "A scheduling system with an AI interface",
       content:
-        "The platform combines structured scheduling functionality with an AI agent capable of understanding natural-language requests and finding suitable available slots.",
+        "The platform provides a conventional scheduling workflow for managing availability and appointments, while an AI agent acts as a natural-language interface on top of that system. Instead of manually searching through a calendar, a user can describe when they want an appointment and the agent can trace suitable available slots.",
     },
     {
       id: "features",
-      label: "Features",
+      label: "Core Features",
       eyebrow: "04 — Features",
-      title: "Core features",
+      title: "The scheduling system",
       content: (
         <ul className="space-y-4">
-          <li>Availability management</li>
-          <li>Recurring schedules</li>
-          <li>Booking and rescheduling</li>
-          <li>Cancellation handling</li>
-          <li>AI-powered slot selection</li>
+          <li>Admin dashboard for schedule management</li>
+          <li>Availability CRUD</li>
+          <li>Recurring availability schedules</li>
+          <li>User appointment booking</li>
+          <li>Appointment rescheduling</li>
+          <li>Appointment cancellation</li>
+          <li>AI-assisted slot selection</li>
         </ul>
       ),
     },
@@ -54,17 +56,28 @@ export default function AppointmentSchedulerPage() {
       id: "ai-agent",
       label: "AI Agent",
       eyebrow: "05 — AI Agent",
-      title: "Natural-language scheduling",
+      title: "Natural language → available slot",
       content:
-        "The AI agent interprets a scheduling request, reads the available schedule, traces suitable empty slots, and helps determine an appropriate booking option.",
+        "The AI agent is designed to understand a user's scheduling request, interpret the relevant constraints, read the available schedule, and trace suitable empty slots. This creates a more conversational interface for interacting with the scheduling system.",
     },
     {
       id: "architecture",
       label: "Architecture",
       eyebrow: "06 — Architecture",
-      title: "System architecture",
+      title: "Application architecture",
       content: (
-        <div className="aspect-video border border-white/10 bg-white/[0.03]" />
+        <div className="space-y-6">
+          <p>
+            The application is built around a Next.js frontend and a
+            backend data layer powered by PostgreSQL through Supabase.
+          </p>
+
+          <div className="aspect-video border border-white/10 bg-white/[0.03] flex items-center justify-center">
+            <span className="text-xs uppercase tracking-[0.25em] text-white/20">
+              Architecture Diagram
+            </span>
+          </div>
+        </div>
       ),
     },
     {
@@ -72,23 +85,32 @@ export default function AppointmentSchedulerPage() {
       label: "Tech Stack",
       eyebrow: "07 — Tech Stack",
       title: "Built with",
-      content: project.stack.join(" · "),
+      content: (
+        <ul className="space-y-4">
+          <li>Next.js — application framework</li>
+          <li>TypeScript — application logic</li>
+          <li>Supabase — backend and database</li>
+          <li>PostgreSQL — relational data storage</li>
+          <li>Supabase Realtime — real-time capabilities</li>
+          <li>Resend — email integration</li>
+        </ul>
+      ),
     },
     {
       id: "challenges",
       label: "Challenges",
       eyebrow: "08 — Challenges",
-      title: "What was difficult",
+      title: "Connecting scheduling logic with AI",
       content:
-        "The project required coordinating scheduling logic, availability management, booking flows, and AI-assisted interaction into one consistent system.",
+        "The main engineering challenge was bringing conventional scheduling logic and an AI-driven interface together without losing the reliability of structured availability data. The system also required handling recurring schedules, booking state, rescheduling, cancellation flows, and communication around appointments.",
     },
     {
       id: "outcome",
       label: "Outcome",
       eyebrow: "09 — Outcome",
-      title: "The result",
+      title: "A working scheduling SaaS",
       content:
-        "A working scheduling platform that combines conventional appointment management with an AI-driven interface for finding suitable appointment slots.",
+        "The result is an appointment scheduling platform that combines traditional calendar and availability management with an AI interface for discovering suitable appointment slots through natural-language interaction.",
     },
   ];
 
@@ -128,6 +150,7 @@ export default function AppointmentSchedulerPage() {
             <p className="text-xs uppercase tracking-[0.2em] text-white/25">
               Role
             </p>
+
             <p className="mt-3 text-sm text-white/60">
               {project.role}
             </p>
@@ -137,6 +160,7 @@ export default function AppointmentSchedulerPage() {
             <p className="text-xs uppercase tracking-[0.2em] text-white/25">
               Stack
             </p>
+
             <p className="mt-3 text-sm text-white/60">
               {project.stack.join(" · ")}
             </p>
@@ -146,13 +170,18 @@ export default function AppointmentSchedulerPage() {
             <p className="text-xs uppercase tracking-[0.2em] text-white/25">
               Type
             </p>
+
             <p className="mt-3 text-sm text-white/60">
               SaaS / AI
             </p>
           </div>
         </div>
 
-        <div className="mt-20 aspect-video border border-white/10 bg-white/[0.03]" />
+        <div className="mt-20 aspect-video border border-white/10 bg-white/[0.03] flex items-center justify-center">
+          <span className="text-xs uppercase tracking-[0.25em] text-white/20">
+            Project Preview
+          </span>
+        </div>
 
         <ProjectCaseStudy
           project={project}

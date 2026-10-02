@@ -29,10 +29,8 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-html {
-  scrollbar-width: none;
+html:has(.home-page) {
   scroll-snap-type: y proximity;
-  /* scroll-behavior: smooth; */
 }
 
 html::-webkit-scrollbar {
@@ -63,4 +61,13 @@ body:has(button:hover) .cursor-dot {
 
 body:has([data-cursor="poem"]:hover) .cursor-poem {
   opacity: 1;
+}
+
+/* Hide native scrollbar for the custom Playground scroller */
+.custom-scrollbar {
+  scrollbar-width: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
 }
