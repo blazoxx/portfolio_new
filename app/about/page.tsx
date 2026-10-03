@@ -16,7 +16,7 @@ export default function AboutPage() {
           </h1>
 
           <p className="mt-10 max-w-2xl text-xl leading-relaxed text-white/50">
-            A little more about the person building the software.
+            {about.intro}
           </p>
         </header>
 
