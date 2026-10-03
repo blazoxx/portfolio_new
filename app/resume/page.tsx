@@ -1,37 +1,7 @@
 import Link from "next/link";
-
-const sections = [
-  {
-    number: "01",
-    title: "EXPERIENCE",
-    content: "Professional experience and things I've worked on.",
-  },
-  {
-    number: "02",
-    title: "PROJECTS",
-    content: "Selected software, AI, and product work.",
-  },
-  {
-    number: "03",
-    title: "SKILLS",
-    content: "Languages, frameworks, AI, and development tools.",
-  },
-  {
-    number: "04",
-    title: "ACHIEVEMENTS",
-    content: "Competitions, milestones, and other highlights.",
-  },
-  {
-    number: "05",
-    title: "EDUCATION",
-    content: "Academic background and relevant coursework.",
-  },
-  {
-    number: "06",
-    title: "CERTIFICATIONS",
-    content: "Courses and certifications.",
-  },
-];
+import { resume } from "@/data/resume";
+import { profile } from "@/data/profile";
+import { skillGroups } from "@/data/skills";
 
 export default function ResumePage() {
   return (
@@ -45,14 +15,15 @@ export default function ResumePage() {
 
           <div className="mt-8 flex flex-col justify-between gap-10 md:flex-row md:items-end">
             <div>
-              <h1 className="text-7xl font-bold tracking-tight md:text-9xl">
-                BHAIBHAV
-                <br />
-                PRATAP.
-              </h1>
+              {profile.fullName.split(" ").map((name, index) => (
+                <span key={name}>
+                  {index > 0 && <br />}
+                  {name}
+                </span>
+              ))}
 
               <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/40">
-                Software Engineer · AI · Builder
+                {profile.role}
               </p>
             </div>
 
@@ -85,40 +56,143 @@ export default function ResumePage() {
           </p>
 
           <p className="max-w-4xl text-2xl leading-relaxed text-white/60 md:text-4xl">
-            Software engineer interested in building practical
-            products, AI systems, and experiences that turn ideas
-            into usable software.
+            {resume.summary}
           </p>
         </div>
       </section>
 
       {/* Resume Sections */}
       <section className="px-6 py-24">
-        <div className="mx-auto w-full max-w-7xl">
-          <div className="border-t border-white/10">
-            {sections.map((section) => (
-              <article
-                key={section.number}
-                className="grid gap-6 border-b border-white/10 py-12 transition hover:bg-white/[0.02] md:grid-cols-[80px_1fr_auto] md:items-center"
-              >
-                <span className="text-xs text-white/20">
-                  {section.number}
-                </span>
+        <div className="mx-auto w-full max-w-7xl space-y-24">
+          {/* Projects */}
+          <section className="border-t border-white/10 pt-12">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/30">
+              01 / Projects
+            </p>
 
-                <div>
+            <div className="mt-10 space-y-8">
+              {resume.projects.map((project) => (
+                <article key={project.title}>
                   <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">
-                    {section.title}
+                    {project.title}
                   </h2>
 
-                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/35">
-                    {section.content}
+                  <p className="mt-3 max-w-3xl text-lg leading-relaxed text-white/40">
+                    {project.description}
                   </p>
-                </div>
+                </article>
+              ))}
+            </div>
+          </section>
 
-                <span className="text-sm text-white/20">
-                  →
-                </span>
-              </article>
+          {/* Achievements */}
+          <section className="border-t border-white/10 pt-12">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/30">
+              02 / Achievements
+            </p>
+
+            <div className="mt-10 space-y-4">
+              {resume.achievements.map((achievement) => (
+                <p
+                  key={achievement}
+                  className="text-2xl text-white/60 md:text-4xl"
+                >
+                  {achievement}
+                </p>
+              ))}
+            </div>
+          </section>
+
+          {/* Roles */}
+          <section className="border-t border-white/10 pt-12">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/30">
+              03 / Roles
+            </p>
+
+            <div className="mt-10 space-y-4">
+              {resume.roles.map((role) => (
+                <p key={role} className="text-2xl text-white/60 md:text-4xl">
+                  {role}
+                </p>
+              ))}
+            </div>
+          </section>
+
+          {/* Education */}
+          <section className="border-t border-white/10 pt-12">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/30">
+              04 / Education
+            </p>
+
+            <div className="mt-10 space-y-10">
+              {resume.education.map((item) => (
+                <article key={item.institution}>
+                  <div className="flex flex-col justify-between gap-2 md:flex-row">
+                    <h2 className="text-2xl font-semibold md:text-4xl">
+                      {item.institution}
+                    </h2>
+
+                    <span className="text-sm text-white/30">
+                      {item.duration}
+                    </span>
+                  </div>
+
+                  <p className="mt-3 text-lg text-white/50">{item.degree}</p>
+
+                  <p className="mt-1 text-sm text-white/30">{item.location}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* Certifications */}
+          <section className="border-t border-white/10 pt-12">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/30">
+              05 / Certifications
+            </p>
+
+            <div className="mt-10 space-y-4">
+              {resume.certifications.map((certification) => (
+                <p
+                  key={certification}
+                  className="text-2xl text-white/60 md:text-4xl"
+                >
+                  {certification}
+                </p>
+              ))}
+            </div>
+          </section>
+        </div>
+      </section>
+
+      {/* Skills */}
+      <section className="border-t border-white/10 px-6 py-24">
+        <div className="mx-auto w-full max-w-7xl">
+          <p className="text-xs uppercase tracking-[0.3em] text-white/30">
+            04 / Skills
+          </p>
+
+          <div className="mt-10 space-y-10">
+            {skillGroups.map((group) => (
+              <div
+                key={group.category}
+                className="grid gap-6 md:grid-cols-[180px_1fr]"
+              >
+                <p className="pt-2 text-sm uppercase tracking-[0.2em] text-white/30">
+                  {group.category}
+                </p>
+
+                <div className="flex flex-wrap gap-3">
+                  {group.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="border border-white/10 px-4 py-2 text-sm text-white/50"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
