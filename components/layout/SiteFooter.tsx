@@ -54,7 +54,7 @@ export default function SiteFooter() {
       <div className="relative px-4 pt-16">
         <div className="pointer-events-none select-none text-center">
           <h2
-            className="bg-gradient-to-r from-emerald-300 via-cyan-300 to-violet-500 bg-clip-text text-[24vw] font-black leading-[0.72] tracking-[-0.08em] text-transparent"
+            className="bg-linear-to-r from-emerald-300 via-cyan-300 to-violet-500 bg-clip-text text-[24vw] font-black leading-[0.72] tracking-[-0.08em] text-transparent"
           >
             theB
           </h2>
