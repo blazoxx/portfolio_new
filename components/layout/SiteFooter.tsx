@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { profile } from "@/data/profile";
 
 const footerLinks = [
   { label: "Home", href: "/" },
@@ -14,7 +15,6 @@ const footerLinks = [
 export default function SiteFooter() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-black">
-      {/* Navigation */}
       <div className="mx-auto w-full max-w-7xl px-6 py-16">
         <div className="flex flex-col justify-between gap-10 md:flex-row">
           <div>
@@ -41,34 +41,29 @@ export default function SiteFooter() {
             </p>
 
             <a
-              href="mailto:your@email.com"
+              href={`mailto:${profile.email}`}
               className="mt-6 block text-sm text-white/50 transition hover:text-white"
             >
-              your@email.com
+              {profile.email}
             </a>
           </div>
         </div>
       </div>
 
-      {/* Giant Name */}
       <div className="relative px-4 pt-16">
         <div className="pointer-events-none select-none text-center">
-          <h2
-            className="bg-linear-to-r from-emerald-300 via-cyan-300 to-violet-500 bg-clip-text text-[24vw] font-black leading-[0.72] tracking-[-0.08em] text-transparent"
-          >
-            theB
+          <h2 className="bg-gradient-to-r from-emerald-300 via-cyan-300 to-violet-500 bg-clip-text text-[24vw] font-black leading-[0.72] tracking-[-0.08em] text-transparent">
+            {profile.name}
           </h2>
         </div>
 
-        {/* Glow */}
         <div className="pointer-events-none absolute bottom-0 left-1/2 h-40 w-[70%] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[100px]" />
       </div>
 
-      {/* Bottom metadata */}
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-4 border-t border-white/10 px-6 py-6 text-[10px] uppercase tracking-[0.2em] text-white/20 sm:flex-row sm:items-center sm:justify-between">
-        <span>© 2026 theB</span>
+        <span>© 2026 {profile.name}</span>
 
-        <span>Software Engineer · AI · Builder</span>
+        <span>{profile.role}</span>
 
         <span>Built with Next.js</span>
       </div>

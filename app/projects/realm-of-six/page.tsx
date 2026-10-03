@@ -2,9 +2,7 @@ import { projects } from "@/data/projects";
 import ProjectCaseStudy from "@/components/projects/ProjectCaseStudy";
 
 export default function RealmOfSixPage() {
-  const project = projects.find(
-    (item) => item.id === "realm-of-six",
-  );
+  const project = projects.find((item) => item.id === "realm-of-six");
 
   if (!project) {
     return null;
@@ -14,143 +12,119 @@ export default function RealmOfSixPage() {
     {
       id: "overview",
       label: "Overview",
-      eyebrow: "01 — Overview",
-      title: "A treasure hunt built as a live experience",
-      content:
-        "Realm of Six was a Game of Thrones-themed treasure hunt created for the college cultural fest. I led the event and designed and developed the digital platform that supported the experience alongside the physical event.",
-    },
-    {
-      id: "problem",
-      label: "The Challenge",
-      eyebrow: "02 — The Challenge",
-      title: "Building for a live campus-wide event",
-      content:
-        "This was not simply a website project. The experience had to support an online preliminary round, a two-day offline event, multiple stages, and a large number of participants while the event itself was being coordinated.",
-    },
-    {
-      id: "solution",
-      label: "Solution",
-      eyebrow: "03 — Solution",
-      title: "A digital layer for the physical game",
-      content:
-        "The platform was designed as the digital layer of the treasure hunt, connecting the online preliminary round and the live event experience with the structure and progression of the game.",
-    },
-    {
-      id: "event",
-      label: "The Event",
-      eyebrow: "04 — The Event",
-      title: "Two days. Multiple rounds. One winner.",
+      eyebrow: "01 / Overview",
+      title: "A treasure hunt built as a living quest.",
       content: (
-        <div className="space-y-8">
+        <p>
+          Treasure Hunt – The Winter Is Coming was a two-day, Game of
+          Thrones–inspired campus treasure hunt created for ENYUGMA, the annual
+          techno-cultural fest of IIIT Bhagalpur. The experience combined
+          riddles, puzzles, clues, strategy, teamwork, and campus-wide
+          exploration.
+        </p>
+      ),
+    },
+
+    {
+      id: "experience",
+      label: "The Experience",
+      eyebrow: "02 / Experience",
+      title: "Story, competition, and exploration.",
+      content: (
+        <p>
+          Participants competed as houses from the Game of Thrones universe and
+          progressed through increasingly challenging rounds. Each stage tested
+          different combinations of logic, observation, collaboration,
+          decision-making, and speed.
+        </p>
+      ),
+    },
+
+    {
+      id: "structure",
+      label: "Event Structure",
+      eyebrow: "03 / Structure",
+      title: "Four primary rounds across two days.",
+      content: (
+        <div className="space-y-5">
           <p>
-            The event ran for two days, with approximately six hours
-            of live activity each day.
+            The event ran for two days, with approximately six hours of gameplay
+            each day.
           </p>
 
-          <div className="grid gap-px border border-white/10 bg-white/10 md:grid-cols-2">
-            <div className="bg-black p-6">
-              <p className="text-3xl font-semibold">300+</p>
-              <p className="mt-2 text-sm text-white/40">
-                participants in the online preliminary round
-              </p>
-            </div>
+          <p>
+            The competition consisted of four primary rounds. Round 3 and the
+            final round were each divided into three internal stages, creating a
+            progressively narrowing path toward the final result.
+          </p>
 
-            <div className="bg-black p-6">
-              <p className="text-3xl font-semibold">100+</p>
-              <p className="mt-2 text-sm text-white/40">
-                participants in the offline event
-              </p>
-            </div>
-
-            <div className="bg-black p-6">
-              <p className="text-3xl font-semibold">2</p>
-              <p className="mt-2 text-sm text-white/40">
-                days of live gameplay
-              </p>
-            </div>
-
-            <div className="bg-black p-6">
-              <p className="text-3xl font-semibold">4</p>
-              <p className="mt-2 text-sm text-white/40">
-                primary rounds
-              </p>
-            </div>
-          </div>
+          <p>
+            House Stark ultimately claimed victory after two days of gameplay.
+          </p>
         </div>
       ),
     },
-    {
-      id: "features",
-      label: "Experience",
-      eyebrow: "05 — Experience",
-      title: "The game structure",
-      content: (
-        <ul className="space-y-4">
-          <li>Online preliminary round</li>
-          <li>Four primary rounds</li>
-          <li>Round 3 divided into three internal stages</li>
-          <li>Final round divided into three internal stages</li>
-          <li>Live campus-wide participant experience</li>
-        </ul>
-      ),
-    },
-    {
-      id: "role",
-      label: "My Role",
-      eyebrow: "06 — My Role",
-      title: "Developer and event lead",
-      content:
-        "I led the event as part of an 11-member core team and independently designed and developed the website. More than 20 people were involved in the broader preparation and execution of the event.",
-    },
-    {
-      id: "architecture",
-      label: "Platform",
-      eyebrow: "07 — Platform",
-      title: "The digital experience",
-      content: (
-        <div className="space-y-6">
-          <p>
-            The website served as the technology layer supporting
-            the treasure hunt experience and its event-specific
-            interactions.
-          </p>
 
-          <div className="aspect-video border border-white/10 bg-white/[0.03] flex items-center justify-center">
-            <span className="text-xs uppercase tracking-[0.25em] text-white/20">
-              Platform Preview
-            </span>
-          </div>
-        </div>
+    {
+      id: "website",
+      label: "Website",
+      eyebrow: "04 / Website",
+      title: "The digital layer behind the hunt.",
+      content: (
+        <p>
+          A dedicated website was created to support the event&apos;s digital
+          requirements and provide a technological layer for the treasure hunt
+          experience. It helped connect the event&apos;s theme and gameplay
+          through an interactive web experience.
+        </p>
       ),
     },
+
     {
-      id: "tech-stack",
+      id: "tech",
       label: "Tech Stack",
-      eyebrow: "08 — Tech Stack",
-      title: "Built with",
+      eyebrow: "05 / Stack",
+      title: "A modern Next.js application.",
       content: (
-        <ul className="space-y-4">
-          <li>React</li>
-          <li>TypeScript</li>
-          <li>Tailwind CSS</li>
-        </ul>
+        <div className="flex flex-wrap gap-3">
+          {[
+            "Next.js 16",
+            "React 19",
+            "TypeScript",
+            "Tailwind CSS 4",
+            "Radix UI",
+            "Lucide React",
+            "MongoDB",
+            "Vercel Analytics",
+            "next-themes",
+            "React Hook Form",
+            "Zod",
+            "Sonner",
+            "Recharts",
+            "Embla Carousel",
+          ].map((tech) => (
+            <span
+              key={tech}
+              className="border border-white/10 px-4 py-2 text-sm text-white/50"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
       ),
     },
+
     {
-      id: "challenges",
-      label: "Challenges",
-      eyebrow: "09 — Challenges",
-      title: "Software under event pressure",
-      content:
-        "The challenge was not only developing the platform but making the digital experience work as part of a live event. The project required coordinating the website with a multi-stage game, participant flow, event logistics, and a large team working across preparation and execution.",
-    },
-    {
-      id: "outcome",
-      label: "Outcome",
-      eyebrow: "10 — Outcome",
-      title: "A software project that became a live event",
-      content:
-        "Realm of Six brought together software development, game design, and event execution. The event ran for two days with more than 100 offline participants after a preliminary online round involving more than 300 participants. The winning team was House Stark.",
+      id: "highlight",
+      label: "Highlight",
+      eyebrow: "06 / Highlight",
+      title: "More than a website.",
+      content: (
+        <p>
+          The project combined storytelling, competition, and real-world
+          exploration into a single fest experience under ENYUGMA.
+        </p>
+      ),
     },
   ];
 
@@ -211,9 +185,7 @@ export default function RealmOfSixPage() {
               Type
             </p>
 
-            <p className="mt-3 text-sm text-white/60">
-              Live Event / Platform
-            </p>
+            <p className="mt-3 text-sm text-white/60">Live Event / Platform</p>
           </div>
         </div>
 
@@ -223,10 +195,7 @@ export default function RealmOfSixPage() {
           </span>
         </div>
 
-        <ProjectCaseStudy
-          project={project}
-          sections={sections}
-        />
+        <ProjectCaseStudy project={project} sections={sections} />
       </div>
     </main>
   );

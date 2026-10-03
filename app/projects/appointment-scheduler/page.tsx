@@ -2,9 +2,7 @@ import { projects } from "@/data/projects";
 import ProjectCaseStudy from "@/components/projects/ProjectCaseStudy";
 
 export default function AppointmentSchedulerPage() {
-  const project = projects.find(
-    (item) => item.id === "appointment-scheduler",
-  );
+  const project = projects.find((item) => item.id === "appointment-scheduler");
 
   if (!project) {
     return null;
@@ -14,103 +12,140 @@ export default function AppointmentSchedulerPage() {
     {
       id: "overview",
       label: "Overview",
-      eyebrow: "01 — Overview",
-      title: "AI-powered appointment scheduling",
-      content:
-        "An appointment scheduling SaaS designed for clinics, consultants, and interview scheduling. The platform combines structured availability management with an AI agent that can understand natural-language scheduling requests and find suitable open slots.",
+      eyebrow: "01 / Overview",
+      title: "A complete scheduling workflow.",
+      content: (
+        <p>
+          Scheduler is a full-stack appointment scheduling platform that manages
+          meetings from request to confirmation. It combines public booking,
+          host management, automated email notifications, calendar integration,
+          and AI-assisted scheduling into one workflow.
+        </p>
+      ),
     },
+
     {
       id: "problem",
       label: "Problem",
-      eyebrow: "02 — Problem",
-      title: "Scheduling is more than a calendar",
-      content:
-        "Appointment systems need to handle availability, recurring schedules, bookings, rescheduling, and cancellations while keeping the experience simple for both administrators and users. Finding a suitable slot can also require understanding the user's request and checking the available schedule.",
+      eyebrow: "02 / Problem",
+      title: "Scheduling is more than picking a time.",
+      content: (
+        <p>
+          A scheduling system needs to handle availability, booking requests,
+          approvals, cancellations, rescheduling, notifications, and calendar
+          events without making the workflow complicated for either participant.
+        </p>
+      ),
     },
+
     {
       id: "solution",
       label: "Solution",
-      eyebrow: "03 — Solution",
-      title: "A scheduling system with an AI interface",
-      content:
-        "The platform provides a conventional scheduling workflow for managing availability and appointments, while an AI agent acts as a natural-language interface on top of that system. Instead of manually searching through a calendar, a user can describe when they want an appointment and the agent can trace suitable available slots.",
+      eyebrow: "03 / Solution",
+      title: "One workflow from request to confirmation.",
+      content: (
+        <p>
+          Scheduler brings the public booking experience and host management
+          workflow together. Guests can find available slots and submit
+          requests, while hosts can manage appointments, availability, and
+          booking status from a centralized dashboard.
+        </p>
+      ),
     },
+
     {
       id: "features",
       label: "Core Features",
-      eyebrow: "04 — Features",
-      title: "The scheduling system",
+      eyebrow: "04 / Features",
+      title: "Everything around the appointment.",
       content: (
         <ul className="space-y-4">
-          <li>Admin dashboard for schedule management</li>
-          <li>Availability CRUD</li>
-          <li>Recurring availability schedules</li>
-          <li>User appointment booking</li>
-          <li>Appointment rescheduling</li>
-          <li>Appointment cancellation</li>
-          <li>AI-assisted slot selection</li>
+          <li>Public booking pages with available time slots.</li>
+          <li>Host dashboard for appointment management.</li>
+          <li>Booking approval and rejection.</li>
+          <li>Cancellation and rescheduling workflows.</li>
+          <li>Availability management.</li>
+          <li>Automated email notifications through Resend.</li>
+          <li>Google Calendar event links and ICS generation.</li>
         </ul>
       ),
     },
+
     {
-      id: "ai-agent",
-      label: "AI Agent",
-      eyebrow: "05 — AI Agent",
-      title: "Natural language → available slot",
-      content:
-        "The AI agent is designed to understand a user's scheduling request, interpret the relevant constraints, read the available schedule, and trace suitable empty slots. This creates a more conversational interface for interacting with the scheduling system.",
+      id: "ai",
+      label: "AI Scheduling",
+      eyebrow: "05 / AI",
+      title: "AI-assisted scheduling.",
+      content: (
+        <p>
+          The scheduling system uses the Gemini API to generate available
+          meeting slots, suggest scheduling options, and support availability
+          planning. The AI module is designed to remain extensible for future
+          scheduling enhancements.
+        </p>
+      ),
     },
+
     {
       id: "architecture",
       label: "Architecture",
-      eyebrow: "06 — Architecture",
-      title: "Application architecture",
+      eyebrow: "06 / Architecture",
+      title: "Separated frontend and backend.",
       content: (
-        <div className="space-y-6">
-          <p>
-            The application is built around a Next.js frontend and a
-            backend data layer powered by PostgreSQL through Supabase.
-          </p>
+        <p>
+          The application is split into a Next.js frontend and a FastAPI
+          backend. Supabase provides the database and authentication layer,
+          while dedicated services handle email, calendar integration, and
+          AI-assisted scheduling.
+        </p>
+      ),
+    },
 
-          <div className="aspect-video border border-white/10 bg-white/[0.03] flex items-center justify-center">
-            <span className="text-xs uppercase tracking-[0.25em] text-white/20">
-              Architecture Diagram
+    {
+      id: "stack",
+      label: "Tech Stack",
+      eyebrow: "07 / Stack",
+      title: "Built across the full stack.",
+      content: (
+        <div className="flex flex-wrap gap-3">
+          {[
+            "Next.js",
+            "React",
+            "TypeScript",
+            "Tailwind CSS",
+            "FastAPI",
+            "Python",
+            "Supabase",
+            "Resend",
+            "Google Calendar API",
+            "Gemini API",
+          ].map((tech) => (
+            <span
+              key={tech}
+              className="border border-white/10 px-4 py-2 text-sm text-white/50"
+            >
+              {tech}
             </span>
-          </div>
+          ))}
         </div>
       ),
     },
+
     {
-      id: "tech-stack",
-      label: "Tech Stack",
-      eyebrow: "07 — Tech Stack",
-      title: "Built with",
+      id: "status",
+      label: "Status",
+      eyebrow: "08 / Status",
+      title: "Feature-complete MVP.",
       content: (
-        <ul className="space-y-4">
-          <li>Next.js — application framework</li>
-          <li>TypeScript — application logic</li>
-          <li>Supabase — backend and database</li>
-          <li>PostgreSQL — relational data storage</li>
-          <li>Supabase Realtime — real-time capabilities</li>
-          <li>Resend — email integration</li>
-        </ul>
+        <p>
+          The current version is a feature-complete MVP covering public booking,
+          host management, appointment lifecycle operations, email
+          notifications, calendar integration, AI-assisted scheduling, and
+          integration testing for calendar utilities. Production deployment,
+          performance improvements, expanded testing, and additional AI
+          scheduling features remain in progress.
+        </p>
       ),
-    },
-    {
-      id: "challenges",
-      label: "Challenges",
-      eyebrow: "08 — Challenges",
-      title: "Connecting scheduling logic with AI",
-      content:
-        "The main engineering challenge was bringing conventional scheduling logic and an AI-driven interface together without losing the reliability of structured availability data. The system also required handling recurring schedules, booking state, rescheduling, cancellation flows, and communication around appointments.",
-    },
-    {
-      id: "outcome",
-      label: "Outcome",
-      eyebrow: "09 — Outcome",
-      title: "A working scheduling SaaS",
-      content:
-        "The result is an appointment scheduling platform that combines traditional calendar and availability management with an AI interface for discovering suitable appointment slots through natural-language interaction.",
     },
   ];
 
@@ -151,9 +186,7 @@ export default function AppointmentSchedulerPage() {
               Role
             </p>
 
-            <p className="mt-3 text-sm text-white/60">
-              {project.role}
-            </p>
+            <p className="mt-3 text-sm text-white/60">{project.role}</p>
           </div>
 
           <div>
@@ -171,9 +204,7 @@ export default function AppointmentSchedulerPage() {
               Type
             </p>
 
-            <p className="mt-3 text-sm text-white/60">
-              SaaS / AI
-            </p>
+            <p className="mt-3 text-sm text-white/60">SaaS / AI</p>
           </div>
         </div>
 
@@ -183,10 +214,7 @@ export default function AppointmentSchedulerPage() {
           </span>
         </div>
 
-        <ProjectCaseStudy
-          project={project}
-          sections={sections}
-        />
+        <ProjectCaseStudy project={project} sections={sections} />
       </div>
     </main>
   );
