@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { navigation } from "@/data/navigation";
+import { profile } from "@/data/profile";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -10,11 +11,8 @@ export default function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-6 py-5">
       <div className="flex items-center justify-between">
-        <Link
-          href="/"
-          className="text-xl font-bold tracking-[0.2em]"
-        >
-          CASII
+        <Link href="/" className="text-xl font-bold tracking-[0.2em]">
+          {profile.name}
         </Link>
 
         <button
@@ -23,9 +21,7 @@ export default function SiteHeader() {
           aria-label="Toggle navigation"
           className="flex h-10 w-10 items-center justify-center"
         >
-          <span className="text-2xl">
-            {open ? "×" : "☰"}
-          </span>
+          <span className="text-2xl">{open ? "×" : "☰"}</span>
         </button>
       </div>
 

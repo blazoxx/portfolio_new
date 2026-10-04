@@ -1,48 +1,20 @@
 "use client";
 
 import { useState } from "react";
-
-const songs = [
-  {
-    number: "01",
-    title: "Song One",
-    artist: "Artist Name",
-    duration: "03:42",
-  },
-  {
-    number: "02",
-    title: "Song Two",
-    artist: "Artist Name",
-    duration: "04:18",
-  },
-  {
-    number: "03",
-    title: "Song Three",
-    artist: "Artist Name",
-    duration: "02:56",
-  },
-  {
-    number: "04",
-    title: "Song Four",
-    artist: "Artist Name",
-    duration: "03:31",
-  },
-  {
-    number: "05",
-    title: "Song Five",
-    artist: "Artist Name",
-    duration: "04:05",
-  },
-];
+import { music } from "@/data/music";
 
 export default function MusicPage() {
+  const songs = music.onRepeat;
   const [activeSong, setActiveSong] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const currentSong = songs[activeSong] ?? music.current;
 
   return (
     <main className="bg-black text-white">
+      {/* Slide 01 — Current */}
       <section className="min-h-screen snap-start px-6 py-16">
         <div className="mx-auto grid min-h-[calc(100vh-8rem)] w-full max-w-7xl items-center gap-16 md:grid-cols-[1fr_420px]">
-          {/* Heading */}
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-white/30">
               Personal · Music
@@ -78,11 +50,12 @@ export default function MusicPage() {
               {/* Track Info */}
               <div className="mt-6">
                 <p className="text-2xl font-semibold tracking-tight">
-                  {songs[activeSong].title}
+                  {music.current.title}
                 </p>
 
                 <p className="mt-1 text-sm text-white/40">
-                  {songs[activeSong].artist}
+                  {music.current.artist}
+                  {music.current.album && ` · ${music.current.album}`}
                 </p>
               </div>
 
@@ -94,15 +67,25 @@ export default function MusicPage() {
 
                 <div className="mt-2 flex justify-between text-[10px] text-white/30">
                   <span>02:14</span>
-                  <span>{songs[activeSong].duration}</span>
+                  <span>--:--</span>
                 </div>
               </div>
 
               {/* Controls */}
+              {/* Controls */}
               <div className="mt-6 flex items-center justify-center gap-8">
                 <button
                   type="button"
+                  onClick={() => {
+                    setActiveSong((current) =>
+                      current === 0
+                        ? Math.max(songs.length - 1, 0)
+                        : current - 1,
+                    );
+                    setIsPlaying(false);
+                  }}
                   className="text-white/40 transition hover:text-white"
+                  aria-label="Previous song"
                 >
                   ↶
                 </button>
@@ -110,13 +93,21 @@ export default function MusicPage() {
                 <button
                   type="button"
                   className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 transition hover:bg-white hover:text-black"
+                  aria-label={isPlaying ? "Pause" : "Play"}
                 >
-                  ▶
+                  {isPlaying ? "Ⅱ" : "▶"}
                 </button>
 
                 <button
                   type="button"
+                  onClick={() => {
+                    setActiveSong((current) =>
+                      songs.length === 0 ? 0 : (current + 1) % songs.length,
+                    );
+                    setIsPlaying(false);
+                  }}
                   className="text-white/40 transition hover:text-white"
+                  aria-label="Next song"
                 >
                   ↷
                 </button>
@@ -126,7 +117,7 @@ export default function MusicPage() {
         </div>
       </section>
 
-      {/* Slide 02 — Song List */}
+      {/* Slide 02 — On Repeat */}
       <section className="min-h-screen snap-start px-6 py-32">
         <div className="mx-auto w-full max-w-7xl">
           <div className="flex items-end justify-between border-b border-white/10 pb-6">
@@ -146,36 +137,46 @@ export default function MusicPage() {
           </div>
 
           <div className="mt-8">
-            {songs.map((song, index) => {
-              const active = index === activeSong;
+            {songs.length > 0 ? (
+              songs.map((song, index) => {
+                const active = index === activeSong;
 
-              return (
-                <button
-                  key={song.number}
-                  type="button"
-                  onClick={() => setActiveSong(index)}
-                  className={`group grid w-full grid-cols-[50px_1fr_auto] items-center gap-6 border-b border-white/10 px-4 py-7 text-left transition md:grid-cols-[70px_1fr_100px] ${
-                    active ? "bg-white/[0.06]" : "hover:bg-white/[0.03]"
-                  }`}
-                >
-                  <span className="text-sm text-white/25">{song.number}</span>
+                return (
+                  <button
+                    key={`${song.title}-${index}`}
+                    type="button"
+                    onClick={() => setActiveSong(index)}
+                    className={`group grid w-full grid-cols-[50px_1fr_auto] items-center gap-6 border-b border-white/10 px-4 py-7 text-left transition md:grid-cols-[70px_1fr_100px] ${
+                      active ? "bg-white/[0.06]" : "hover:bg-white/[0.03]"
+                    }`}
+                  >
+                    <span className="text-sm text-white/25">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
 
-                  <div>
-                    <p
-                      className={`text-xl font-medium transition ${
-                        active ? "text-white" : "text-white/70"
-                      }`}
-                    >
-                      {song.title}
-                    </p>
+                    <div>
+                      <p
+                        className={`text-xl font-medium transition ${
+                          active ? "text-white" : "text-white/70"
+                        }`}
+                      >
+                        {song.title}
+                      </p>
 
-                    <p className="mt-1 text-sm text-white/30">{song.artist}</p>
-                  </div>
+                      <p className="mt-1 text-sm text-white/30">
+                        {song.artist}
+                      </p>
+                    </div>
 
-                  <span className="text-xs text-white/25">{song.duration}</span>
-                </button>
-              );
-            })}
+                    <span className="text-xs text-white/25">—</span>
+                  </button>
+                );
+              })
+            ) : (
+              <div className="border-b border-white/10 py-12 text-sm text-white/25">
+                No songs added yet.
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -193,30 +194,34 @@ export default function MusicPage() {
             STAYED.
           </h2>
 
-          <div className="mt-16 grid gap-px border border-white/10 bg-white/10 md:grid-cols-3">
-            <div className="bg-black p-8">
-              <p className="text-xs uppercase tracking-[0.25em] text-white/25">
-                Artists
-              </p>
+          <div className="mt-16">
+            {music.archive.length > 0 ? (
+              <div className="grid gap-px border border-white/10 bg-white/10 md:grid-cols-3">
+                {music.archive.map((item, index) => (
+                  <div key={`${item.title}-${index}`} className="bg-black p-8">
+                    <p className="text-xs uppercase tracking-[0.25em] text-white/25">
+                      {item.artist}
+                    </p>
 
-              <p className="mt-6 text-2xl text-white/60">Favorite artists</p>
-            </div>
+                    <p className="mt-6 text-2xl text-white/60">{item.title}</p>
 
-            <div className="bg-black p-8">
-              <p className="text-xs uppercase tracking-[0.25em] text-white/25">
-                Albums
-              </p>
+                    {item.album && (
+                      <p className="mt-2 text-sm text-white/30">{item.album}</p>
+                    )}
 
-              <p className="mt-6 text-2xl text-white/60">Favorite albums</p>
-            </div>
-
-            <div className="bg-black p-8">
-              <p className="text-xs uppercase tracking-[0.25em] text-white/25">
-                Playlists
-              </p>
-
-              <p className="mt-6 text-2xl text-white/60">Personal playlists</p>
-            </div>
+                    {item.note && (
+                      <p className="mt-4 text-sm leading-relaxed text-white/30">
+                        {item.note}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="border border-white/10 p-8 text-sm text-white/25">
+                Music archive coming soon.
+              </div>
+            )}
           </div>
         </div>
       </section>

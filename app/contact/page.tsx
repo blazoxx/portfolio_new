@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { profile } from "@/data/profile";
 
 export default function ContactPage() {
   return (
@@ -19,8 +20,8 @@ export default function ContactPage() {
           </h1>
 
           <p className="mt-10 max-w-2xl text-lg leading-relaxed text-white/40">
-            Have an idea, project, opportunity, or just want to
-            talk about something interesting?
+            Have an idea, project, opportunity, or just want to talk about
+            something interesting?
           </p>
         </div>
       </section>
@@ -33,32 +34,22 @@ export default function ContactPage() {
           </p>
 
           <div className="space-y-8">
-            <a
-              href="mailto:your@email.com"
-              className="block text-2xl text-white/60 transition hover:text-white md:text-4xl"
-            >
-              your@email.com
-            </a>
+            <a href={`mailto:${profile.email}`}>{profile.email}</a>
 
             <div className="flex flex-wrap gap-x-8 gap-y-4 text-sm uppercase tracking-[0.2em] text-white/30">
-              <a
-                href="#"
-                className="transition hover:text-white"
-              >
+              <a href={profile.socials.github} target="_blank" rel="noreferrer">
                 GitHub
               </a>
 
               <a
-                href="#"
-                className="transition hover:text-white"
+                href={profile.socials.linkedin}
+                target="_blank"
+                rel="noreferrer"
               >
                 LinkedIn
               </a>
 
-              <a
-                href="#"
-                className="transition hover:text-white"
-              >
+              <a href="#" className="transition hover:text-white">
                 X / Twitter
               </a>
             </div>
@@ -83,8 +74,8 @@ export default function ContactPage() {
             </div>
 
             <p className="mt-6 max-w-3xl text-2xl leading-relaxed text-white/50 md:text-3xl">
-              Interested in software engineering, AI,
-              research, and building useful products.
+              Interested in software engineering, AI, research, and building
+              useful products.
             </p>
           </div>
         </div>

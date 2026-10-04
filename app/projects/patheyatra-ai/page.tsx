@@ -2,9 +2,7 @@ import { projects } from "@/data/projects";
 import ProjectCaseStudy from "@/components/projects/ProjectCaseStudy";
 
 export default function PatheyatraPage() {
-  const project = projects.find(
-    (item) => item.id === "patheyatra-ai",
-  );
+  const project = projects.find((item) => item.id === "patheyatra-ai");
 
   if (!project) {
     return null;
@@ -14,155 +12,195 @@ export default function PatheyatraPage() {
     {
       id: "overview",
       label: "Overview",
-      eyebrow: "01 — Overview",
-      title: "AI-powered travel planning",
-      content:
-        "Pātheyātrā AI is a multi-agent travel planning system that transforms a natural-language travel request into structured destination insights, weather information, budget estimates, and a day-wise itinerary.",
+      eyebrow: "01 / Overview",
+      title: "A multi-agent travel planner.",
+      content: (
+        <p>
+          Pātheyātrā AI is an AI-powered travel planning system that generates
+          personalized itineraries, budget breakdowns, destination insights, and
+          weather information through a coordinated set of specialized AI
+          agents.
+        </p>
+      ),
     },
+
     {
       id: "problem",
       label: "Problem",
-      eyebrow: "02 — Problem",
-      title: "Travel planning is fragmented",
-      content:
-        "Planning a trip requires combining several kinds of information: understanding the traveller's intent, researching destinations, considering weather, estimating costs, and organizing everything into a practical itinerary. Handling these tasks as one large AI workflow can make the system difficult to structure and extend.",
+      eyebrow: "02 / Problem",
+      title: "Travel planning involves multiple decisions.",
+      content: (
+        <p>
+          Building a useful travel plan requires understanding the user&apos;s
+          preferences, researching a destination, planning each day, estimating
+          expenses, and considering current weather conditions.
+        </p>
+      ),
     },
+
     {
       id: "solution",
       label: "Solution",
-      eyebrow: "03 — Solution",
-      title: "Specialized agents, one workflow",
-      content:
-        "Pātheyātrā AI separates the planning process into specialized agents. A central orchestration layer coordinates the agents and passes structured information between them before producing the final travel plan.",
-    },
-    {
-      id: "features",
-      label: "Core Features",
-      eyebrow: "04 — Features",
-      title: "From intent to itinerary",
+      eyebrow: "03 / Solution",
+      title: "Specialized agents, one coordinated workflow.",
       content: (
-        <ul className="space-y-4">
-          <li>Natural-language travel planning</li>
-          <li>Intent extraction from user requests</li>
-          <li>Destination research and recommendations</li>
-          <li>Live weather integration</li>
-          <li>Day-wise itinerary generation</li>
-          <li>Smart budget estimation</li>
-          <li>Structured JSON-based agent communication</li>
-          <li>Asynchronous workflow orchestration</li>
-        </ul>
+        <p>
+          Pātheyātrā AI separates these responsibilities into specialized agents
+          coordinated by a central orchestrator. Structured JSON communication
+          allows the different stages of the workflow to work together.
+        </p>
       ),
     },
+
     {
       id: "agents",
       label: "AI Agents",
-      eyebrow: "05 — AI Agents",
-      title: "A team of specialized agents",
+      eyebrow: "04 / Agents",
+      title: "Five specialized agents.",
       content: (
-        <div className="space-y-8">
+        <div className="space-y-6">
           <div>
-            <h3 className="text-xl font-medium text-white">
-              Intent Agent
-            </h3>
+            <h3 className="font-medium text-white">Intent Agent</h3>
             <p className="mt-2">
-              Extracts the user&apos;s travel requirements and converts
-              natural language into structured intent.
+              Extracts destination, duration, budget, and travel preferences
+              from natural-language input.
             </p>
           </div>
 
           <div>
-            <h3 className="text-xl font-medium text-white">
-              Research Agent
-            </h3>
+            <h3 className="font-medium text-white">Research Agent</h3>
             <p className="mt-2">
-              Handles destination research and generates relevant
-              travel insights.
+              Collects destination insights, attractions, local transport
+              methods, and best times to visit.
             </p>
           </div>
 
           <div>
-            <h3 className="text-xl font-medium text-white">
-              Weather Agent
-            </h3>
+            <h3 className="font-medium text-white">Itinerary Agent</h3>
             <p className="mt-2">
-              Provides weather information relevant to the planned
-              destination and trip.
+              Generates personalized day-by-day itineraries using trip duration,
+              preferences, and destination context.
             </p>
           </div>
 
           <div>
-            <h3 className="text-xl font-medium text-white">
-              Itinerary Agent
-            </h3>
+            <h3 className="font-medium text-white">Budget Agent</h3>
             <p className="mt-2">
-              Converts the gathered information into a structured
-              day-wise travel itinerary.
+              Estimates expenses across hotels, food, flights, local transport,
+              and activities while considering the user&apos;s budget.
             </p>
           </div>
 
           <div>
-            <h3 className="text-xl font-medium text-white">
-              Budget Agent
-            </h3>
+            <h3 className="font-medium text-white">Weather Agent</h3>
             <p className="mt-2">
-              Estimates the expected travel budget from the available
-              trip information.
+              Fetches live weather information for the selected destination
+              using weather APIs.
             </p>
           </div>
         </div>
       ),
     },
+
     {
       id: "architecture",
       label: "Architecture",
-      eyebrow: "06 — Architecture",
-      title: "Multi-agent orchestration",
+      eyebrow: "05 / Architecture",
+      title: "Modular orchestration.",
       content: (
-        <div className="space-y-6">
-          <p>
-            The system uses a FastAPI backend to coordinate the
-            different agents and maintain a structured flow of
-            information between them.
-          </p>
+        <p>
+          The system uses a FastAPI backend with asynchronous workflow
+          orchestration. A central orchestrator coordinates specialized agents,
+          while structured JSON is used for communication between workflow
+          stages.
+        </p>
+      ),
+    },
 
-          <div className="aspect-video border border-white/10 bg-white/[0.03] flex items-center justify-center">
-            <span className="text-xs uppercase tracking-[0.25em] text-white/20">
-              Multi-Agent Architecture
+    {
+      id: "stack",
+      label: "Tech Stack",
+      eyebrow: "06 / Stack",
+      title: "AI meets a lightweight web stack.",
+      content: (
+        <div className="flex flex-wrap gap-3">
+          {[
+            "React",
+            "Vite",
+            "CSS",
+            "FastAPI",
+            "Uvicorn",
+            "Python",
+            "Asyncio",
+            "Gemini 2.5 Flash",
+            "Pydantic",
+            "OpenWeatherMap API",
+          ].map((tech) => (
+            <span
+              key={tech}
+              className="border border-white/10 px-4 py-2 text-sm text-white/50"
+            >
+              {tech}
             </span>
-          </div>
+          ))}
         </div>
       ),
     },
+
     {
-      id: "tech-stack",
-      label: "Tech Stack",
-      eyebrow: "07 — Tech Stack",
-      title: "Built with",
+      id: "decisions",
+      label: "Design Decisions",
+      eyebrow: "07 / Decisions",
+      title: "Why a multi-agent architecture?",
       content: (
-        <ul className="space-y-4">
-          <li>Python — core application logic</li>
-          <li>FastAPI — backend API</li>
-          <li>Gemini API — AI generation and reasoning</li>
-          <li>Asynchronous orchestration — agent workflow</li>
-          <li>OpenWeatherMap API — weather integration</li>
-        </ul>
+        <div className="space-y-6">
+          <p>
+            The project uses specialized agents to improve separation of
+            concerns, maintainability, scalability, and independent reasoning
+            workflows.
+          </p>
+
+          <p>
+            FastAPI provides asynchronous request handling and a lightweight API
+            architecture, while Gemini was selected for fast inference,
+            structured JSON generation, cost efficiency, and reasoning
+            capabilities.
+          </p>
+        </div>
       ),
     },
+
     {
       id: "challenges",
       label: "Challenges",
-      eyebrow: "08 — Challenges",
-      title: "Orchestrating multiple AI agents",
-      content:
-        "The main challenge was coordinating specialized agents while keeping communication between them structured and predictable. The project also involved handling external APIs and AI-service constraints while maintaining a consistent workflow from user intent to the final itinerary.",
+      eyebrow: "08 / Challenges",
+      title: "Making LLM workflows reliable.",
+      content: (
+        <ul className="space-y-4">
+          <li>Handling inconsistent LLM JSON outputs.</li>
+          <li>Optimizing prompts for structured responses.</li>
+          <li>Synchronizing frontend and backend workflows.</li>
+          <li>Estimating realistic travel budgets.</li>
+          <li>Handling API quota limitations.</li>
+          <li>Managing workflow orchestration timing.</li>
+          <li>Gracefully handling malformed responses.</li>
+        </ul>
+      ),
     },
+
     {
-      id: "outcome",
-      label: "Outcome",
-      eyebrow: "09 — Outcome",
-      title: "A modular AI travel planner",
-      content:
-        "The result is a modular multi-agent travel-planning system demonstrating how specialized AI agents can work together to transform an unstructured travel request into structured recommendations, budget information, weather context, and an itinerary.",
+      id: "learnings",
+      label: "Learnings",
+      eyebrow: "09 / Learnings",
+      title: "From prompts to AI systems.",
+      content: (
+        <p>
+          The project provided hands-on experience with AI-agent orchestration,
+          prompt engineering, asynchronous backend systems, API integration,
+          structured LLM pipelines, frontend/backend communication,
+          production-style debugging, and modular AI system design.
+        </p>
+      ),
     },
   ];
 
@@ -203,9 +241,7 @@ export default function PatheyatraPage() {
               Role
             </p>
 
-            <p className="mt-3 text-sm text-white/60">
-              {project.role}
-            </p>
+            <p className="mt-3 text-sm text-white/60">{project.role}</p>
           </div>
 
           <div>
@@ -223,9 +259,7 @@ export default function PatheyatraPage() {
               Type
             </p>
 
-            <p className="mt-3 text-sm text-white/60">
-              AI / Multi-Agent
-            </p>
+            <p className="mt-3 text-sm text-white/60">AI / Multi-Agent</p>
           </div>
         </div>
 
@@ -235,10 +269,7 @@ export default function PatheyatraPage() {
           </span>
         </div>
 
-        <ProjectCaseStudy
-          project={project}
-          sections={sections}
-        />
+        <ProjectCaseStudy project={project} sections={sections} />
       </div>
     </main>
   );

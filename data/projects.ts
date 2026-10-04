@@ -7,6 +7,10 @@ export type Project = {
   stack: string[];
   role: string;
   href: string;
+
+  liveUrl?: string;
+  githubUrl?: string;
+  image?: string;
 };
 
 export const projects: Project[] = [
@@ -16,9 +20,19 @@ export const projects: Project[] = [
     title: "AI APPOINTMENT SCHEDULER",
     category: "SaaS / AI",
     description:
-      "An AI-powered scheduling platform for managing availability, bookings, rescheduling, cancellations, and intelligent slot selection.",
-    stack: ["Next.js", "TypeScript", "Supabase", "Gemini"],
-    role: "Designed · Built · Deployed",
+      "A full-stack appointment scheduling platform combining public booking, host management, automated notifications, calendar integration, and AI-assisted scheduling.",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "FastAPI",
+      "Python",
+      "Supabase",
+      "Resend",
+      "Gemini API",
+    ],
+    role: "Designed · Built",
     href: "/projects/appointment-scheduler",
   },
   {
@@ -27,20 +41,33 @@ export const projects: Project[] = [
     title: "PĀTHEYĀTRĀ AI",
     category: "AI / MULTI-AGENT",
     description:
-      "A multi-agent AI travel planner that researches destinations, weather, budgets, and itineraries through an orchestrated workflow.",
-    stack: ["Python", "FastAPI", "Gemini", "Multi-Agent AI"],
-    role: "Designed · Built · Deployed",
+      "An AI-powered multi-agent travel planner that generates personalized itineraries, destination insights, budget estimates, and weather information.",
+    stack: [
+      "React",
+      "Vite",
+      "FastAPI",
+      "Python",
+      "Gemini API",
+      "OpenWeatherMap",
+    ],
+    role: "Designed · Built",
     href: "/projects/patheyatra-ai",
   },
   {
     id: "realm-of-six",
     number: "03",
     title: "REALM OF SIX",
-    category: "EVENT / PLATFORM",
+    category: "EVENT / WEB",
     description:
-      "A live treasure hunt built for a college cultural fest, where I designed and developed the digital platform powering the experience alongside the offline event.",
-    stack: ["Next.js", "React", "Node.js", "Real-Time Web"],
-    role: "Designed · Developed · Event Lead",
+      "A Game of Thrones–inspired, two-day campus treasure hunt built for ENYUGMA at IIIT Bhagalpur, combining live gameplay, puzzles, exploration, and a dedicated event website.",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "MongoDB",
+    ],
+    role: "Event Lead · Website",
     href: "/projects/realm-of-six",
   },
 ];

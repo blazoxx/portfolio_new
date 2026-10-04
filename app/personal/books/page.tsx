@@ -1,166 +1,130 @@
-const books = [
-  {
-    number: "01",
-    title: "Book One",
-    author: "Author Name",
-    meta: "2026 · Non-fiction",
-  },
-  {
-    number: "02",
-    title: "Book Two",
-    author: "Author Name",
-    meta: "2025 · Fiction",
-  },
-  {
-    number: "03",
-    title: "Book Three",
-    author: "Author Name",
-    meta: "2024 · Psychology",
-  },
-  {
-    number: "04",
-    title: "Book Four",
-    author: "Author Name",
-    meta: "2023 · Technology",
-  },
-];
-
-const nextBooks = [
-  {
-    number: "01",
-    title: "Book To Read One",
-    author: "Author Name",
-    meta: "Fiction",
-  },
-  {
-    number: "02",
-    title: "Book To Read Two",
-    author: "Author Name",
-    meta: "Technology",
-  },
-  {
-    number: "03",
-    title: "Book To Read Three",
-    author: "Author Name",
-    meta: "Non-fiction",
-  },
-];
+import Link from "next/link";
+import { books } from "@/data/books";
 
 export default function BooksPage() {
   return (
     <main className="bg-black text-white">
-      {/* Slide 01 — Currently Reading */}
+      {/* Slide 01 — Featured */}
       <section className="min-h-screen snap-start px-6 py-16">
         <div className="mx-auto flex min-h-[calc(100vh-8rem)] w-full max-w-7xl items-center">
-          <div className="max-w-4xl">
+          <div>
             <p className="text-xs uppercase tracking-[0.3em] text-white/30">
               Personal · Books
             </p>
 
             <h1 className="mt-6 text-7xl font-bold tracking-tight md:text-9xl">
-              IDEAS
+              THINGS
               <br />
-              I KEEP
-              <br />
-              AROUND.
+              I READ.
             </h1>
 
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/40">
-              Books I&apos;m reading, books I&apos;ve finished, and ideas
-              that stayed with me.
+              Books, ideas, and words worth keeping around.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Slide 02 — Read */}
+      {/* Slide 02 — Currently Reading */}
       <section className="min-h-screen snap-start px-6 py-32">
         <div className="mx-auto w-full max-w-7xl">
           <p className="text-xs uppercase tracking-[0.3em] text-white/30">
-            Archive
+            Currently
           </p>
 
           <h2 className="mt-6 text-6xl font-bold tracking-tight md:text-8xl">
-            READ.
+            READING.
           </h2>
 
-          <div className="mt-16 grid grid-cols-2 gap-6 md:grid-cols-4">
-            {books.map((book) => (
-              <div key={book.number} className="group">
-                {/* Book Cover */}
-                <div className="aspect-[2/3] border border-white/10 bg-white/[0.03] transition group-hover:border-white/30">
-                  <div className="flex h-full items-center justify-center p-6">
-                    <span className="text-center text-xs uppercase tracking-[0.2em] text-white/20">
-                      Book Cover
-                    </span>
-                  </div>
-                </div>
+          <div className="mt-16">
+            {books.reading ? (
+              <div className="grid gap-10 border-t border-white/10 pt-10 md:grid-cols-[240px_1fr]">
+                <div className="aspect-[2/3] border border-white/10 bg-white/[0.03]" />
 
-                {/* Book Info */}
-                <div className="mt-5">
-                  <h3 className="text-xl font-medium tracking-tight">
-                    {book.title}
+                <div className="flex flex-col justify-center">
+                  <p className="text-xs uppercase tracking-[0.25em] text-white/30">
+                    {books.reading.year}
+                  </p>
+
+                  <h3 className="mt-4 text-4xl font-semibold tracking-tight md:text-6xl">
+                    {books.reading.title}
                   </h3>
 
-                  <p className="mt-2 text-sm text-white/40">
-                    {book.author}
+                  <p className="mt-3 text-lg text-white/40">
+                    {books.reading.author}
                   </p>
 
-                  <p className="mt-2 text-xs uppercase tracking-[0.15em] text-white/25">
-                    {book.meta}
-                  </p>
+                  {books.reading.note && (
+                    <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/50">
+                      {books.reading.note}
+                    </p>
+                  )}
                 </div>
               </div>
-            ))}
+            ) : (
+              <div className="border-t border-white/10 py-12 text-sm text-white/25">
+                Nothing currently reading.
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Slide 03 — Next Up */}
+      {/* Slide 03 — Library */}
       <section className="min-h-screen snap-start px-6 py-32">
         <div className="mx-auto w-full max-w-7xl">
           <p className="text-xs uppercase tracking-[0.3em] text-white/30">
-            Queue
+            Library
           </p>
 
           <h2 className="mt-6 text-6xl font-bold tracking-tight md:text-8xl">
-            NEXT UP.
+            BOOKS
+            <br />
+            I KEEP.
           </h2>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/40">
-            Books waiting to be opened.
-          </p>
-
           <div className="mt-16 border-t border-white/10">
-            {nextBooks.map((book) => (
-              <div
-                key={book.number}
-                className="group grid gap-6 border-b border-white/10 py-8 transition hover:bg-white/[0.03] md:grid-cols-[80px_1fr_auto] md:items-center"
-              >
-                <span className="text-sm text-white/25">
-                  {book.number}
-                </span>
+            {books.library.length > 0 ? (
+              books.library.map((book, index) => (
+                <div
+                  key={`${book.title}-${index}`}
+                  className="group grid gap-6 border-b border-white/10 py-8 transition hover:bg-white/[0.03] md:grid-cols-[80px_1fr_auto] md:items-center"
+                >
+                  <span className="text-sm text-white/25">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
 
-                <div>
-                  <h3 className="text-2xl font-medium tracking-tight transition group-hover:translate-x-2 md:text-4xl">
-                    {book.title}
-                  </h3>
+                  <div>
+                    <h3 className="text-2xl font-medium tracking-tight transition group-hover:translate-x-2 md:text-4xl">
+                      {book.title}
+                    </h3>
 
-                  <p className="mt-2 text-sm text-white/40">
-                    {book.author}
-                  </p>
+                    <p className="mt-2 text-xs uppercase tracking-[0.2em] text-white/30">
+                      {book.author}
+                      {book.year && ` · ${book.year}`}
+                    </p>
+                  </div>
 
-                  <p className="mt-2 text-xs uppercase tracking-[0.2em] text-white/25">
-                    {book.meta}
-                  </p>
+                  {book.note && (
+                    <p className="max-w-sm text-sm text-white/30">
+                      {book.note}
+                    </p>
+                  )}
                 </div>
-
-                <span className="text-sm text-white/25">
-                  →
-                </span>
+              ))
+            ) : (
+              <div className="py-12 text-sm text-white/25">
+                No books added yet.
               </div>
-            ))}
+            )}
           </div>
+
+          <Link
+            href="/personal"
+            className="mt-12 inline-block text-sm text-white/35 transition hover:text-white"
+          >
+            ← Back to Personal
+          </Link>
         </div>
       </section>
     </main>

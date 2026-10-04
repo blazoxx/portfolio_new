@@ -1,31 +1,5 @@
 import Link from "next/link";
-
-const sections = [
-  {
-    number: "01",
-    title: "Music",
-    description: "What’s on repeat.",
-    href: "/personal/music",
-  },
-  {
-    number: "02",
-    title: "Movies & TV",
-    description: "Things worth watching.",
-    href: "/personal/movies",
-  },
-  {
-    number: "03",
-    title: "Games",
-    description: "Worlds I get lost in.",
-    href: "/personal/games",
-  },
-  {
-    number: "04",
-    title: "Books",
-    description: "Ideas I keep around.",
-    href: "/personal/books",
-  },
-];
+import { personalCategories } from "@/data/personal";
 
 export default function PersonalPage() {
   return (
@@ -46,24 +20,23 @@ export default function PersonalPage() {
         </p>
 
         <div className="mt-24 border-t border-white/10">
-          {sections.map((section) => (
+          {personalCategories.map((category, index) => (
             <Link
-              key={section.number}
-              href={`/personal/${section.title
-                .toLowerCase()
-                .replace(" & ", "-")
-                .replace(" ", "-")}`}
+              key={category.href}
+              href={category.href}
               className="group grid gap-6 border-b border-white/10 py-12 transition hover:bg-white/[0.03] md:grid-cols-[100px_1fr_auto] md:items-center"
             >
-              <span className="text-sm text-white/25">{section.number}</span>
+              <span className="text-sm text-white/25">
+                {String(index + 1).padStart(2, "0")}
+              </span>
 
               <div>
                 <h2 className="text-4xl font-semibold tracking-tight transition group-hover:translate-x-2 md:text-6xl">
-                  {section.title}
+                  {category.title}
                 </h2>
 
                 <p className="mt-3 text-sm text-white/35">
-                  {section.description}
+                  {category.description}
                 </p>
               </div>
 
