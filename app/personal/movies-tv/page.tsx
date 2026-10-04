@@ -1,31 +1,25 @@
-const watchlist = [
-  {
-    number: "01",
-    title: "Movie / Show One",
-    meta: "2026 · Drama",
-    favorite: true,
-  },
-  {
-    number: "02",
-    title: "Movie / Show Two",
-    meta: "2025 · Sci-Fi",
-    favorite: true,
-  },
-  {
-    number: "03",
-    title: "Movie / Show Three",
-    meta: "2024 · Thriller",
-    favorite: true,
-  },
-  {
-    number: "04",
-    title: "Movie / Show Four",
-    meta: "2023 · Animation",
-    favorite: false,
-  },
-];
+"use client";
+
+import { useMemo, useState } from "react";
+import { movies } from "@/data/movies";
 
 export default function MoviesPage() {
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("All");
+
+  const filteredMovies = useMemo(() => {
+    const query = search.toLowerCase().trim();
+
+    return movies.watched.filter((movie) => {
+      const matchesSearch =
+        !query || `${movie.title} ${movie.meta}`.toLowerCase().includes(query);
+
+      const matchesFilter = filter === "All" || movie.type === filter;
+
+      return matchesSearch && matchesFilter;
+    });
+  }, [search, filter]);
+
   return (
     <main className="bg-black text-white">
       {/* Slide 01 — Featured */}
@@ -64,63 +58,83 @@ export default function MoviesPage() {
             WATCHED.
           </h2>
 
+          <p className="mt-4 text-xs uppercase tracking-[0.2em] text-white/25">
+            {filteredMovies.length}{" "}
+            {filteredMovies.length === 1 ? "title" : "titles"}
+          </p>
+
           {/* Search */}
           <div className="mt-12 flex flex-col gap-4 md:flex-row">
             <input
               type="text"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
               placeholder="Search movies & shows..."
               className="h-14 flex-1 border border-white/10 bg-white/[0.03] px-5 text-sm text-white outline-none placeholder:text-white/25 focus:border-white/30"
             />
-
-            <button
-              type="button"
-              className="h-14 border border-white/10 px-6 text-xs uppercase tracking-[0.2em] text-white/50 transition hover:border-white/30 hover:text-white"
-            >
-              Filter
-            </button>
+            <div className="flex flex-wrap gap-2">
+              {["All", "Movie", "Series", "Drama", "Anime"].map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => setFilter(type)}
+                  className={`h-14 border px-5 text-xs uppercase tracking-[0.2em] transition ${
+                    filter === type
+                      ? "border-white/30 bg-white/[0.08] text-white"
+                      : "border-white/10 text-white/40 hover:border-white/30 hover:text-white"
+                  }`}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Movie / Show Grid */}
           <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {watchlist.map((item) => (
-              <div
-                key={item.number}
-                className="group relative aspect-[3/4] overflow-hidden border border-white/10 bg-white/[0.03]"
-              >
-                {/* Poster */}
-                <div className="absolute inset-0 bg-white/[0.03]" />
+            {filteredMovies.map(
+              (item: (typeof movies.watched)[number], index: number) => (
+                <div
+                  key={`${item.title}-${index}`}
+                  className="group relative aspect-[3/4] overflow-hidden border border-white/10 bg-white/[0.03]"
+                >
+                  {/* Poster */}
+                  <div className="absolute inset-0 bg-white/[0.03]" />
 
-                {/* Heart */}
-                {item.favorite && (
-                  <span
-                    aria-label="Favorite"
-                    className="absolute right-5 top-5 z-30 text-4xl leading-none text-red-500"
-                  >
-                    ♥
-                  </span>
-                )}
+                  {/* Heart */}
+                  {item.favorite && (
+                    <span
+                      aria-label="Favorite"
+                      className="absolute right-5 top-5 z-30 text-4xl leading-none text-red-500"
+                    >
+                      ♥
+                    </span>
+                  )}
 
-                {/* Default title */}
-                <div className="absolute inset-0 flex items-end p-5 transition-opacity duration-200 group-hover:opacity-0">
-                  <h3 className="text-xl font-medium tracking-tight">
-                    {item.title}
-                  </h3>
+                  {/* Default title */}
+                  <div className="absolute inset-0 flex items-end p-5 transition-opacity duration-200 group-hover:opacity-0">
+                    <h3 className="text-xl font-medium tracking-tight">
+                      {item.title}
+                    </h3>
+                  </div>
+
+                  {/* Hover details */}
+                  <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full bg-gradient-to-t from-black/95 via-black/80 to-transparent px-5 pb-5 pt-10 transition-transform duration-300 group-hover:translate-y-0">
+                    <p className="text-xs uppercase tracking-[0.2em] text-white/40">
+                      {item.meta}
+                    </p>
+
+                    <h3 className="mt-3 text-2xl font-semibold">
+                      {item.title}
+                    </h3>
+
+                    <p className="mt-4 text-sm leading-relaxed text-white/60">
+                      My opinion about this movie or show will go here.
+                    </p>
+                  </div>
                 </div>
-
-                {/* Hover details */}
-                <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full bg-gradient-to-t from-black/95 via-black/80 to-transparent px-5 pb-5 pt-10 transition-transform duration-300 group-hover:translate-y-0">
-                  <p className="text-xs uppercase tracking-[0.2em] text-white/40">
-                    {item.meta}
-                  </p>
-
-                  <h3 className="mt-3 text-2xl font-semibold">{item.title}</h3>
-
-                  <p className="mt-4 text-sm leading-relaxed text-white/60">
-                    My opinion about this movie or show will go here.
-                  </p>
-                </div>
-              </div>
-            ))}
+              ),
+            )}
           </div>
         </div>
       </section>
@@ -163,34 +177,14 @@ export default function MoviesPage() {
           </p>
 
           <div className="mt-16 border-t border-white/10">
-            {[
-              {
-                number: "01",
-                title: "Movie / Show One",
-                meta: "2026 · Drama",
-              },
-              {
-                number: "02",
-                title: "Movie / Show Two",
-                meta: "2025 · Sci-Fi",
-              },
-              {
-                number: "03",
-                title: "Movie / Show Three",
-                meta: "2024 · Thriller",
-              },
-              {
-                number: "04",
-                title: "Movie / Show Four",
-                meta: "2023 · Animation",
-              },
-            ].map((item) => (
+            {movies.nextUp.map((item, index) => (
               <div
-                key={item.number}
+                key={`${item.title}-${index}`}
                 className="group grid gap-6 border-b border-white/10 py-8 transition hover:bg-white/[0.03] md:grid-cols-[80px_1fr_auto] md:items-center"
               >
-                <span className="text-sm text-white/25">{item.number}</span>
-
+                <span className="text-sm text-white/25">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 <div>
                   <h3 className="text-2xl font-medium tracking-tight transition group-hover:translate-x-2 md:text-4xl">
                     {item.title}
@@ -207,7 +201,6 @@ export default function MoviesPage() {
           </div>
         </div>
       </section>
-      
     </main>
   );
 }
