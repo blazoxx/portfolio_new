@@ -6,6 +6,7 @@ import { music } from "@/data/music";
 export default function MusicPage() {
   const songs = music.onRepeat;
   const [activeSong, setActiveSong] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const currentSong = songs[activeSong] ?? music.current;
 
@@ -71,10 +72,20 @@ export default function MusicPage() {
               </div>
 
               {/* Controls */}
+              {/* Controls */}
               <div className="mt-6 flex items-center justify-center gap-8">
                 <button
                   type="button"
+                  onClick={() => {
+                    setActiveSong((current) =>
+                      current === 0
+                        ? Math.max(songs.length - 1, 0)
+                        : current - 1,
+                    );
+                    setIsPlaying(false);
+                  }}
                   className="text-white/40 transition hover:text-white"
+                  aria-label="Previous song"
                 >
                   ↶
                 </button>
@@ -82,13 +93,21 @@ export default function MusicPage() {
                 <button
                   type="button"
                   className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 transition hover:bg-white hover:text-black"
+                  aria-label={isPlaying ? "Pause" : "Play"}
                 >
-                  ▶
+                  {isPlaying ? "Ⅱ" : "▶"}
                 </button>
 
                 <button
                   type="button"
+                  onClick={() => {
+                    setActiveSong((current) =>
+                      songs.length === 0 ? 0 : (current + 1) % songs.length,
+                    );
+                    setIsPlaying(false);
+                  }}
                   className="text-white/40 transition hover:text-white"
+                  aria-label="Next song"
                 >
                   ↷
                 </button>
@@ -128,9 +147,7 @@ export default function MusicPage() {
                     type="button"
                     onClick={() => setActiveSong(index)}
                     className={`group grid w-full grid-cols-[50px_1fr_auto] items-center gap-6 border-b border-white/10 px-4 py-7 text-left transition md:grid-cols-[70px_1fr_100px] ${
-                      active
-                        ? "bg-white/[0.06]"
-                        : "hover:bg-white/[0.03]"
+                      active ? "bg-white/[0.06]" : "hover:bg-white/[0.03]"
                     }`}
                   >
                     <span className="text-sm text-white/25">
@@ -151,9 +168,7 @@ export default function MusicPage() {
                       </p>
                     </div>
 
-                    <span className="text-xs text-white/25">
-                      —
-                    </span>
+                    <span className="text-xs text-white/25">—</span>
                   </button>
                 );
               })
@@ -183,22 +198,15 @@ export default function MusicPage() {
             {music.archive.length > 0 ? (
               <div className="grid gap-px border border-white/10 bg-white/10 md:grid-cols-3">
                 {music.archive.map((item, index) => (
-                  <div
-                    key={`${item.title}-${index}`}
-                    className="bg-black p-8"
-                  >
+                  <div key={`${item.title}-${index}`} className="bg-black p-8">
                     <p className="text-xs uppercase tracking-[0.25em] text-white/25">
                       {item.artist}
                     </p>
 
-                    <p className="mt-6 text-2xl text-white/60">
-                      {item.title}
-                    </p>
+                    <p className="mt-6 text-2xl text-white/60">{item.title}</p>
 
                     {item.album && (
-                      <p className="mt-2 text-sm text-white/30">
-                        {item.album}
-                      </p>
+                      <p className="mt-2 text-sm text-white/30">{item.album}</p>
                     )}
 
                     {item.note && (

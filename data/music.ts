@@ -12,7 +12,16 @@ export const music = {
     album: "ALBUM",
   },
 
-  onRepeat: [] as MusicItem[],
+  onRepeat: [
+    // Add songs here later
+    // {
+    //   title: "Song",
+    //   artist: "Artist",
+    //   album: "Album",
+    // },
+  ] as MusicItem[],
 
-  archive: [] as MusicItem[],
+  archive: [
+    // Add older favorites here later
+  ] as MusicItem[],
 };
