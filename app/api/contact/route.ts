@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
@@ -13,14 +16,30 @@ export async function POST(request: Request) {
       );
     }
 
+    await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL!,
+      to: process.env.RESEND_TO_EMAIL!,
+      replyTo: email,
+      subject: `Portfolio contact — ${name}`,
+      text: `
+Name: ${name}
+Email: ${email}
+
+Message:
+${message}
+      `,
+    });
+
     return NextResponse.json({
       success: true,
-      message: "Message received.",
+      message: "Message sent successfully.",
     });
-  } catch {
+  } catch (error) {
+    console.error("Contact form error:", error);
+
     return NextResponse.json(
-      { error: "Invalid request." },
-      { status: 400 },
+      { error: "Failed to send message." },
+      { status: 500 },
     );
   }
 }
