@@ -24,7 +24,7 @@ export default function AboutPage() {
           {about.sections.map((section, index) => (
             <section
               key={section.label}
-              className="grid gap-8 border-b border-white/10 py-20 md:grid-cols-[120px_220px_1fr]"
+              className="grid gap-8 border-b border-white/10 py-20 transition duration-500 hover:bg-white/[0.02] md:grid-cols-[120px_220px_1fr]"
             >
               <span className="text-sm text-white/25">
                 {String(index + 1).padStart(2, "0")}

@@ -118,10 +118,45 @@ export default function ResumePage() {
             </div>
           </section>
 
+          {/* Skills */}
+          <section className="border-t border-white/10 px-6 py-24 pb-4">
+            <div className="mx-auto w-full max-w-7xl">
+              <p className="text-xs uppercase tracking-[0.3em] text-white/30">
+                04 / Skills
+              </p>
+
+              <div className="mt-10 space-y-10">
+                {skillGroups.map((group) => (
+                  <div
+                    key={group.category}
+                    className="grid gap-6 md:grid-cols-[180px_1fr]"
+                  >
+                    <p className="pt-2 text-sm uppercase tracking-[0.2em] text-white/30">
+                      {group.category}
+                    </p>
+
+                    <div className="flex flex-wrap gap-3">
+                      {group.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="border border-white/10 px-4 py-2 text-sm text-white/50 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.03] hover:text-white"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* Education */}
           <section className="border-t border-white/10 pt-12">
             <p className="text-xs uppercase tracking-[0.3em] text-white/30">
-              04 / Education
+              <p className="text-xs uppercase tracking-[0.3em] text-white/30">
+                05 / Education
+              </p>
             </p>
 
             <div className="mt-10 space-y-10">
@@ -148,7 +183,7 @@ export default function ResumePage() {
           {/* Certifications */}
           <section className="border-t border-white/10 pt-12">
             <p className="text-xs uppercase tracking-[0.3em] text-white/30">
-              05 / Certifications
+              06 / Certifications
             </p>
 
             <div className="mt-10 space-y-4">
@@ -162,39 +197,6 @@ export default function ResumePage() {
               ))}
             </div>
           </section>
-        </div>
-      </section>
-
-      {/* Skills */}
-      <section className="border-t border-white/10 px-6 py-24">
-        <div className="mx-auto w-full max-w-7xl">
-          <p className="text-xs uppercase tracking-[0.3em] text-white/30">
-            04 / Skills
-          </p>
-
-          <div className="mt-10 space-y-10">
-            {skillGroups.map((group) => (
-              <div
-                key={group.category}
-                className="grid gap-6 md:grid-cols-[180px_1fr]"
-              >
-                <p className="pt-2 text-sm uppercase tracking-[0.2em] text-white/30">
-                  {group.category}
-                </p>
-
-                <div className="flex flex-wrap gap-3">
-                  {group.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="border border-white/10 px-4 py-2 text-sm text-white/50 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.03] hover:text-white"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

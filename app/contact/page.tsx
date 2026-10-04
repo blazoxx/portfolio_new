@@ -1,7 +1,14 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { profile } from "@/data/profile";
 
 export default function ContactPage() {
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+
   return (
     <main className="min-h-screen bg-black text-white">
       {/* Hero */}
@@ -88,7 +95,48 @@ export default function ContactPage() {
             Send a message
           </p>
 
-          <form className="mt-12 max-w-3xl space-y-8">
+          <form
+            className="mt-12 max-w-3xl space-y-8"
+            onSubmit={async (event) => {
+              event.preventDefault();
+
+              setSending(true);
+              setSubmitted(false);
+              setError("");
+
+              const form = event.currentTarget;
+              const formData = new FormData(form);
+
+              try {
+                const response = await fetch("/api/contact", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    name: formData.get("name"),
+                    email: formData.get("email"),
+                    message: formData.get("message"),
+                  }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                  throw new Error(data.error || "Something went wrong.");
+                }
+
+                setSubmitted(true);
+                form.reset();
+              } catch (err) {
+                setError(
+                  err instanceof Error ? err.message : "Something went wrong.",
+                );
+              } finally {
+                setSending(false);
+              }
+            }}
+          >
             <div className="grid gap-8 md:grid-cols-2">
               <div>
                 <label
@@ -100,6 +148,7 @@ export default function ContactPage() {
 
                 <input
                   id="name"
+                  name="name"
                   type="text"
                   placeholder="Your name"
                   className="mt-3 w-full border-b border-white/10 bg-transparent px-0 py-4 text-white outline-none placeholder:text-white/20 focus:border-white/40"
@@ -116,13 +165,13 @@ export default function ContactPage() {
 
                 <input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="you@example.com"
                   className="mt-3 w-full border-b border-white/10 bg-transparent px-0 py-4 text-white outline-none placeholder:text-white/20 focus:border-white/40"
                 />
               </div>
             </div>
-
             <div>
               <label
                 htmlFor="message"
@@ -133,18 +182,24 @@ export default function ContactPage() {
 
               <textarea
                 id="message"
+                name="message"
                 rows={6}
                 placeholder="Tell me what's on your mind..."
                 className="mt-3 w-full resize-none border-b border-white/10 bg-transparent px-0 py-4 text-white outline-none placeholder:text-white/20 focus:border-white/40"
               />
             </div>
-
             <button
               type="submit"
-              className="border border-white/20 px-7 py-4 text-xs uppercase tracking-[0.2em] text-white/60 transition hover:border-white hover:bg-white hover:text-black"
+              disabled={sending}
+              className="border border-white/20 px-7 py-4 text-xs uppercase tracking-[0.2em] text-white/60 transition hover:border-white hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Send Message →
+              {sending
+                ? "Sending..."
+                : submitted
+                  ? "Message Sent ✓"
+                  : "Send Message →"}
             </button>
+            {error && <p className="text-sm text-red-400">{error}</p>}
           </form>
         </div>
       </section>
