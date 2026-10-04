@@ -186,7 +186,7 @@ export default function ResumePage() {
                   {group.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="border border-white/10 px-4 py-2 text-sm text-white/50"
+                      className="border border-white/10 px-4 py-2 text-sm text-white/50 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.03] hover:text-white"
                     >
                       {skill}
                     </span>
