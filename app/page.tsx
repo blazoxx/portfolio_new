@@ -19,7 +19,7 @@ const sections = [
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("projects");
-  const [showSitemap, setShowSitemap] = useState(false);
+  const [sitemapOpacity, setSitemapOpacity] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -62,18 +62,38 @@ export default function Home() {
 
       if (!projects || !footer) return;
 
-      const reachedProjects = window.scrollY >= projects.offsetTop;
+      const viewportHeight = window.innerHeight;
 
-      const footerVisible =
-        footer.getBoundingClientRect().top < window.innerHeight;
+      // Projects fade-in
+      const projectsTop = projects.getBoundingClientRect().top;
 
-      setShowSitemap(reachedProjects && !footerVisible);
+      const projectsVisibleHeight = Math.max(0, viewportHeight - projectsTop);
+
+      const projectsFade = Math.min(
+        1,
+        projectsVisibleHeight / (viewportHeight * 0.5),
+      );
+
+      // Footer fade-out
+      const footerTop = footer.getBoundingClientRect().top;
+
+      const footerVisibleHeight = Math.max(0, viewportHeight - footerTop);
+
+      const footerFade = Math.min(
+        1,
+        footerVisibleHeight / (viewportHeight * 0.5),
+      );
+
+      setSitemapOpacity(projectsFade * (1 - footerFade));
     };
 
     handleScroll();
+
     window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -81,7 +101,7 @@ export default function Home() {
       <HomeSitemap
         sections={sections}
         activeSection={activeSection}
-        visible={showSitemap}
+        opacity={sitemapOpacity}
       />
 
       <div className="relative h-[250vh]">
