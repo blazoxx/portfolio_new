@@ -6,6 +6,7 @@ import HomeSitemap from "@/components/home/HomeSitemap";
 import ProjectsSection from "@/components/home/ProjectsSection";
 import CircleLanding from "@/components/home/CircleLanding";
 import HomeAbout from "@/components/about/HomeAbout";
+import { profile } from "@/data/profile";
 
 const sections = [
   { id: "projects", label: "Projects" },
@@ -83,7 +84,7 @@ export default function Home() {
       <ProjectsSection />
 
       <HomeAbout />
-      
+
       <HomeSection id="skills" className="relative z-20 bg-black">
         <div className="w-full">
           <p className="mb-6 text-sm uppercase tracking-[0.3em] text-white/40">
@@ -194,17 +195,27 @@ export default function Home() {
 
           <div className="mt-12 flex flex-wrap gap-8 text-sm uppercase tracking-[0.2em]">
             <a
-              href="mailto:your@email.com"
+              href={`mailto:${profile.email}`}
               className="text-white/50 transition hover:text-white"
             >
               Email
             </a>
 
-            <a href="#" className="text-white/50 transition hover:text-white">
+            <a
+              href={profile.socials.github}
+              target="_blank"
+              rel="noreferrer"
+              className="text-white/50 transition hover:text-white"
+            >
               GitHub
             </a>
 
-            <a href="#" className="text-white/50 transition hover:text-white">
+            <a
+              href={profile.socials.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="text-white/50 transition hover:text-white"
+            >
               LinkedIn
             </a>
           </div>
