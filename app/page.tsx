@@ -7,6 +7,7 @@ import ProjectsSection from "@/components/home/ProjectsSection";
 import CircleLanding from "@/components/home/CircleLanding";
 import HomeAbout from "@/components/about/HomeAbout";
 import { profile } from "@/data/profile";
+import Link from "next/link";
 
 const sections = [
   { id: "projects", label: "Projects" },
@@ -140,29 +141,38 @@ export default function Home() {
           </p>
 
           <div className="mt-16 grid grid-cols-2 gap-6 md:grid-cols-4">
-            <div className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]">
+            <Link
+              href="/personal/music"
+              className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]"
+            >
               <p className="text-lg">Music</p>
               <p className="mt-2 text-sm text-white/30">
                 What&apos;s on repeat
               </p>
-            </div>
-
-            <div className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]">
+            </Link>
+            <Link
+              href="/personal/movies-tv"
+              className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]"
+            >
               <p className="text-lg">Movies & TV</p>
               <p className="mt-2 text-sm text-white/30">
                 Things worth watching
               </p>
-            </div>
-
-            <div className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]">
+            </Link>
+            <Link
+              href="/personal/games"
+              className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]"
+            >
               <p className="text-lg">Games</p>
               <p className="mt-2 text-sm text-white/30">Worlds I get lost in</p>
-            </div>
-
-            <div className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]">
+            </Link>
+            <Link
+              href="/personal/books"
+              className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]"
+            >
               <p className="text-lg">Books</p>
               <p className="mt-2 text-sm text-white/30">Ideas I keep around</p>
-            </div>
+            </Link>
           </div>
           <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-6">
             <span className="text-xs uppercase tracking-[0.25em] text-white/25">
