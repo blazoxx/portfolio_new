@@ -58,10 +58,16 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       const projects = document.getElementById("projects");
+      const footer = document.getElementById("site-footer");
 
-      if (!projects) return;
+      if (!projects || !footer) return;
 
-      setShowSitemap(window.scrollY >= projects.offsetTop);
+      const reachedProjects = window.scrollY >= projects.offsetTop;
+
+      const footerVisible =
+        footer.getBoundingClientRect().top < window.innerHeight;
+
+      setShowSitemap(reachedProjects && !footerVisible);
     };
 
     handleScroll();

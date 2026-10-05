@@ -14,7 +14,10 @@ const footerLinks = [
 
 export default function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-black">
+    <footer
+      id="site-footer"
+      className="relative overflow-hidden border-t border-white/10 bg-black"
+    >
       <div className="mx-auto w-full max-w-7xl px-6 py-16">
         <div className="flex flex-col justify-between gap-10 md:flex-row">
           <div>
