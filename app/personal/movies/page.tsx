@@ -325,47 +325,6 @@ export default function MoviesPage() {
                   </p>
                 )}
               </section>
-
-              {/* Community */}
-              <section className="mt-12 border-t border-white/10 pt-10">
-                <div className="flex items-center justify-between gap-6">
-                  <p className="text-xs uppercase tracking-[0.25em] text-white/30">
-                    Community Reviews
-                  </p>
-
-                  <button
-                    type="button"
-                    className="border border-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/40 transition hover:border-white/30 hover:text-white"
-                  >
-                    + Leave a review
-                  </button>
-                </div>
-
-                <div className="mt-8 space-y-6">
-                  {selectedMovie.reviews?.length ? (
-                    selectedMovie.reviews.map((review, index) => (
-                      <article
-                        key={`${review.name}-${index}`}
-                        className="border-b border-white/10 pb-6 last:border-0"
-                      >
-                        <div className="flex items-center justify-between gap-4">
-                          <p className="text-sm font-medium">{review.name}</p>
-
-                          <span className="text-sm text-white/40">
-                            ★ {review.rating}/5
-                          </span>
-                        </div>
-
-                        <p className="mt-3 text-white/50">{review.review}</p>
-                      </article>
-                    ))
-                  ) : (
-                    <p className="text-sm text-white/25">
-                      No community reviews yet.
-                    </p>
-                  )}
-                </div>
-              </section>
             </div>
           </div>
         </div>

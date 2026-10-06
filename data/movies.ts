@@ -1,11 +1,5 @@
 export type MovieType = "Movie" | "Series" | "Drama" | "Anime";
 
-export type MovieReview = {
-  name: string;
-  rating: number; // reviewer rating in stars
-  review: string;
-};
-
 export type MovieItem = {
   title: string;
   meta: string;
@@ -23,8 +17,6 @@ export type MovieItem = {
 
   myRating?: number; // your rating in stars
   myOpinion?: string;
-
-  reviews?: MovieReview[];
 };
 
 export const movies = {
