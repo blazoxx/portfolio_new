@@ -1,29 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { books, type BookItem } from "@/data/books";
 import { useBookData } from "@/hooks/useBookData";
 
 export default function BooksPage() {
   const [selectedBook, setSelectedBook] = useState<BookItem | null>(null);
+
+  const featuredBook = useBookData(books.featured);
+  const readingBook = useBookData(books.reading);
+  const libraryBooks = useBookData(books.library);
+
   const selectedBookData = useBookData(selectedBook);
+
+  useEffect(() => {
+    document.body.style.overflow = selectedBook ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedBook]);
 
   return (
     <main className="bg-black text-white">
       {/* Slide 01 — Featured */}
       <section className="min-h-screen snap-start px-6 py-16">
         <div className="mx-auto flex min-h-[calc(100vh-8rem)] w-full max-w-7xl items-center">
-          {books.featured ? (
+          {featuredBook ? (
             <button
               type="button"
-              onClick={() => setSelectedBook(books.featured)}
+              onClick={() => setSelectedBook(featuredBook)}
               className="group grid w-full gap-12 text-left md:grid-cols-[280px_1fr] md:items-center"
             >
               <div className="aspect-[2/3] overflow-hidden bg-white/[0.03]">
-                {books.featured.cover ? (
+                {featuredBook.cover ? (
                   <img
-                    src={books.featured.cover}
-                    alt={books.featured.title}
+                    src={featuredBook.cover}
+                    alt={featuredBook.title}
                     className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                   />
                 ) : (
@@ -43,17 +56,17 @@ export default function BooksPage() {
                 </p>
 
                 <h1 className="mt-4 text-6xl font-bold tracking-tight md:text-8xl">
-                  {books.featured.title}
+                  {featuredBook.title}
                 </h1>
 
                 <p className="mt-4 text-lg text-white/50">
-                  {books.featured.author}
-                  {books.featured.year && ` · ${books.featured.year}`}
+                  {featuredBook.author}
+                  {featuredBook.year && ` · ${featuredBook.year}`}
                 </p>
 
-                {books.featured.note && (
+                {featuredBook.note && (
                   <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/40">
-                    {books.featured.note}
+                    {featuredBook.note}
                   </p>
                 )}
               </div>
@@ -66,7 +79,8 @@ export default function BooksPage() {
 
               <h1 className="mt-6 text-7xl font-bold tracking-tight md:text-9xl">
                 WORDS
-                <br />I KEEP.
+                <br />
+                I KEEP.
               </h1>
 
               <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/40">
@@ -89,17 +103,17 @@ export default function BooksPage() {
             READING.
           </h2>
 
-          {books.reading ? (
+          {readingBook ? (
             <button
               type="button"
-              onClick={() => setSelectedBook(books.reading)}
+              onClick={() => setSelectedBook(readingBook)}
               className="group mt-16 grid w-full gap-10 border-t border-white/10 pt-10 text-left md:grid-cols-[180px_1fr] md:items-center"
             >
               <div className="aspect-[2/3] overflow-hidden bg-white/[0.03]">
-                {books.reading.cover ? (
+                {readingBook.cover ? (
                   <img
-                    src={books.reading.cover}
-                    alt={books.reading.title}
+                    src={readingBook.cover}
+                    alt={readingBook.title}
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
                 ) : (
@@ -111,17 +125,17 @@ export default function BooksPage() {
 
               <div>
                 <h3 className="text-4xl font-medium tracking-tight md:text-6xl">
-                  {books.reading.title}
+                  {readingBook.title}
                 </h3>
 
                 <p className="mt-3 text-sm uppercase tracking-[0.2em] text-white/30">
-                  {books.reading.author}
-                  {books.reading.year && ` · ${books.reading.year}`}
+                  {readingBook.author}
+                  {readingBook.year && ` · ${readingBook.year}`}
                 </p>
 
-                {books.reading.note && (
+                {readingBook.note && (
                   <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/40">
-                    {books.reading.note}
+                    {readingBook.note}
                   </p>
                 )}
               </div>
@@ -148,12 +162,12 @@ export default function BooksPage() {
           </h2>
 
           <p className="mt-4 text-xs uppercase tracking-[0.2em] text-white/25">
-            {books.library.length}{" "}
-            {books.library.length === 1 ? "book" : "books"}
+            {libraryBooks.length}{" "}
+            {libraryBooks.length === 1 ? "book" : "books"}
           </p>
 
           <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
-            {books.library.map((book, index) => (
+            {libraryBooks.map((book, index) => (
               <button
                 key={`${book.title}-${index}`}
                 type="button"
@@ -178,6 +192,7 @@ export default function BooksPage() {
 
                     <p className="mt-1 text-xs uppercase tracking-[0.15em] text-white/50">
                       {book.author}
+                      {book.year && ` · ${book.year}`}
                     </p>
 
                     {book.note && (
@@ -191,7 +206,7 @@ export default function BooksPage() {
             ))}
           </div>
 
-          {books.library.length === 0 && (
+          {libraryBooks.length === 0 && (
             <div className="border-t border-white/10 py-16">
               <p className="text-sm uppercase tracking-[0.2em] text-white/25">
                 Library is empty.
@@ -202,7 +217,7 @@ export default function BooksPage() {
       </section>
 
       {/* Book Modal */}
-      {selectedBookData && !Array.isArray(selectedBookData) && (
+      {selectedBookData && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4">
           <div className="relative h-[92vh] w-full max-w-5xl overflow-hidden border border-white/10 bg-black">
             <button
