@@ -23,14 +23,6 @@ export default function GamesPage() {
     game.title.toLowerCase().includes(search.toLowerCase()),
   );
 
-  useEffect(() => {
-    document.body.style.overflow = selectedGame ? "hidden" : "";
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [selectedGame]);
-
   return (
     <main className="bg-black text-white">
       {/* Slide 01 — Featured */}
@@ -84,46 +76,42 @@ export default function GamesPage() {
           </div>
 
           {/* Game Grid */}
-          <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+          <div className="mt-12 grid min-w-0 grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
             {filteredGames.map((game, index) => (
               <button
                 key={`${game.title}-${index}`}
                 type="button"
                 onClick={() => setSelectedGame(game)}
-                className="group relative w-full overflow-hidden border border-white/10 bg-white/[0.02] text-left transition duration-500 hover:-translate-y-1 hover:border-white/20"
+                className="group relative min-w-0 w-full overflow-hidden border border-white/10 bg-white/[0.02] text-left transition duration-500 hover:-translate-y-1 hover:border-white/20"
               >
-                <div className="relative aspect-[2/3] overflow-hidden bg-white/[0.03]">
-                  <div className="relative aspect-[2/3] overflow-hidden bg-white/[0.03]">
-                    {game.poster ? (
-                      <img
-                        src={game.poster}
-                        alt={game.title}
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center px-4 text-center text-xs uppercase tracking-[0.2em] text-white/20">
-                        No Poster
-                      </div>
+                <div className="relative aspect-[2/3] w-full overflow-hidden bg-white/[0.03]">
+                  {game.poster ? (
+                    <img
+                      src={game.poster}
+                      alt={game.title}
+                      className="block h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center px-4 text-center text-xs uppercase tracking-[0.2em] text-white/20">
+                      No Poster
+                    </div>
+                  )}
+
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black via-black/70 to-transparent p-5 opacity-0 transition duration-300 group-hover:opacity-100">
+                    <p className="text-lg font-medium">{game.title}</p>
+
+                    {(game.platform || game.year) && (
+                      <p className="mt-1 text-xs uppercase tracking-[0.15em] text-white/50">
+                        {[game.year, game.platform].filter(Boolean).join(" · ")}
+                      </p>
                     )}
 
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black via-black/70 to-transparent p-5 opacity-0 transition duration-300 group-hover:opacity-100">
-                      <p className="text-lg font-medium">{game.title}</p>
-
-                      {(game.platform || game.year) && (
-                        <p className="mt-1 text-xs uppercase tracking-[0.15em] text-white/50">
-                          {[game.year, game.platform]
-                            .filter(Boolean)
-                            .join(" · ")}
-                        </p>
-                      )}
-
-                      {game.myOpinion && (
-                        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-white/60">
-                          {game.myOpinion}
-                        </p>
-                      )}
-                    </div>
+                    {game.myOpinion && (
+                      <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-white/60">
+                        {game.myOpinion}
+                      </p>
+                    )}
                   </div>
                 </div>
               </button>
@@ -193,44 +181,75 @@ export default function GamesPage() {
       </section>
 
       {/* Game Modal */}
+      {/* Game Modal */}
       {selectedGameData && (
-        <>
-          <img
-            src={selectedGameData.poster}
-            alt={selectedGameData.title}
-            className="h-full w-full object-cover"
-          />
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4">
+          <div className="relative h-[92vh] w-full max-w-6xl overflow-hidden border border-white/10 bg-black">
+            {/* Close */}
+            <button
+              type="button"
+              onClick={() => setSelectedGame(null)}
+              className="absolute right-6 top-6 z-20 flex h-10 w-10 items-center justify-center border border-white/20 bg-black/40 text-xl text-white/70 transition hover:border-white/40 hover:text-white"
+              aria-label="Close game details"
+            >
+              ×
+            </button>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-
-          <div className="absolute inset-x-0 bottom-0 p-8">
-            <p className="mb-2 text-xs uppercase tracking-[0.25em] text-white/50">
-              {selectedGameData.year}
-              {selectedGameData.platform && ` · ${selectedGameData.platform}`}
-            </p>
-
-            <h2 className="text-4xl font-semibold">{selectedGameData.title}</h2>
-
-            {selectedGameData.genre && (
-              <p className="mt-2 text-sm text-white/60">
-                {selectedGameData.genre}
-              </p>
+            {/* Background */}
+            {selectedGameData.poster && (
+              <img
+                src={selectedGameData.poster}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover opacity-30 blur-[2px]"
+              />
             )}
 
-            {selectedGameData.myRating && (
-              <div className="mt-5 text-lg">
-                {"★".repeat(selectedGameData.myRating)}
-                {"☆".repeat(5 - selectedGameData.myRating)}
+            {/* Background gradients */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/20" />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+
+            {/* Content */}
+            <div className="relative flex h-full items-end p-8 md:p-12">
+              <div className="max-w-3xl">
+                <p className="mb-3 text-xs uppercase tracking-[0.25em] text-white/50">
+                  {[selectedGameData.year, selectedGameData.platform]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </p>
+
+                <h2 className="text-4xl font-semibold tracking-tight md:text-6xl">
+                  {selectedGameData.title}
+                </h2>
+
+                {selectedGameData.genre && (
+                  <p className="mt-3 text-sm text-white/60">
+                    {selectedGameData.genre}
+                  </p>
+                )}
+
+                {selectedGameData.details && (
+                  <p className="mt-6 max-w-2xl line-clamp-4 text-sm leading-6 text-white/60">
+                    {selectedGameData.details}
+                  </p>
+                )}
+
+                {selectedGameData.myRating && (
+                  <div className="mt-6 text-lg tracking-wide">
+                    {"★".repeat(selectedGameData.myRating)}
+                    {"☆".repeat(5 - selectedGameData.myRating)}
+                  </div>
+                )}
+
+                {selectedGameData.myOpinion && (
+                  <p className="mt-4 max-w-xl text-sm italic leading-6 text-white/60">
+                    “{selectedGameData.myOpinion}”
+                  </p>
+                )}
               </div>
-            )}
-
-            {selectedGameData.myOpinion && (
-              <p className="mt-4 max-w-xl text-sm italic text-white/60">
-                “{selectedGameData.myOpinion}”
-              </p>
-            )}
+            </div>
           </div>
-        </>
+        </div>
       )}
     </main>
   );
