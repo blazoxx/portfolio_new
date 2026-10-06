@@ -1,23 +1,41 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import Link from "next/link";
-import { games } from "@/data/games";
+import { useEffect, useMemo, useState } from "react";
+import { games, type GameItem } from "@/data/games";
+import { useGameData } from "@/hooks/useGameData";
 
 export default function GamesPage() {
   const [search, setSearch] = useState("");
+  const [selectedGame, setSelectedGame] = useState<GameItem | null>(null);
+  const selectedGameData = useGameData(selectedGame);
+
+  useEffect(() => {
+    document.body.style.overflow = selectedGame ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedGame]);
 
   const filteredGames = useMemo(() => {
     const query = search.toLowerCase().trim();
 
-    if (!query) return games.played;
+    return games.played.filter((game) => {
+      if (!query) return true;
 
-    return games.played.filter((game) =>
-      `${game.title} ${game.platform ?? ""} ${game.year ?? ""}`
+      return `${game.title} ${game.platform ?? ""} ${game.genre ?? ""}`
         .toLowerCase()
-        .includes(query),
-    );
+        .includes(query);
+    });
   }, [search]);
+
+  useEffect(() => {
+    document.body.style.overflow = selectedGame ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedGame]);
 
   return (
     <main className="bg-black text-white">
@@ -30,8 +48,11 @@ export default function GamesPage() {
             </p>
 
             <h1 className="mt-6 text-7xl font-bold tracking-tight md:text-9xl">
-              GAMES
-              <br />I PLAY.
+              WORLDS
+              <br />
+              I GET
+              <br />
+              LOST IN.
             </h1>
 
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/40">
@@ -52,53 +73,81 @@ export default function GamesPage() {
             PLAYED.
           </h2>
 
-          <input
-            type="text"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder="Search games..."
-            className="mt-12 h-14 w-full border border-white/10 bg-white/[0.03] px-5 text-sm text-white outline-none placeholder:text-white/25 focus:border-white/30 md:max-w-md"
-          />
+          <p className="mt-4 text-xs uppercase tracking-[0.2em] text-white/25">
+            {filteredGames.length}{" "}
+            {filteredGames.length === 1 ? "game" : "games"}
+          </p>
 
-          <div className="mt-16 border-t border-white/10">
-            {filteredGames.length > 0 ? (
-              filteredGames.map(
-                (game: (typeof games.played)[number], index: number) => (
-                  <div
-                    key={`${game.title}-${index}`}
-                    className="group grid gap-6 border-b border-white/10 py-8 transition hover:bg-white/[0.03] md:grid-cols-[80px_1fr_auto] md:items-center"
-                  >
-                    <span className="text-sm text-white/25">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-
-                    <div>
-                      <h3 className="text-2xl font-medium tracking-tight transition group-hover:translate-x-2 md:text-4xl">
-                        {game.title}
-                      </h3>
-
-                      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-white/30">
-                        {[game.platform, game.year].filter(Boolean).join(" · ")}
-                      </p>
-                    </div>
-
-                    {game.note && (
-                      <p className="max-w-sm text-sm text-white/30">
-                        {game.note}
-                      </p>
-                    )}
-                  </div>
-                ),
-              )
-            ) : (
-              <div className="py-12 text-sm text-white/25">No games found.</div>
-            )}
+          {/* Search */}
+          <div className="mt-12">
+            <input
+              type="text"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Search games..."
+              className="h-14 w-full border border-white/10 bg-white/[0.03] px-5 text-sm text-white outline-none placeholder:text-white/25 focus:border-white/30 md:max-w-md"
+            />
           </div>
+
+          {/* Game Grid */}
+          <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+            {filteredGames.map((game, index) => (
+              <button
+                key={`${game.title}-${index}`}
+                type="button"
+                onClick={() => setSelectedGame(game)}
+                className="group relative w-full overflow-hidden border border-white/10 bg-white/[0.02] text-left transition duration-500 hover:-translate-y-1 hover:border-white/20"
+              >
+                <div className="relative aspect-[2/3] overflow-hidden bg-white/[0.03]">
+                  <div className="relative aspect-[2/3] overflow-hidden bg-white/[0.03]">
+                    {game.poster ? (
+                      <img
+                        src={game.poster}
+                        alt={game.title}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center px-4 text-center text-xs uppercase tracking-[0.2em] text-white/20">
+                        No Poster
+                      </div>
+                    )}
+
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black via-black/70 to-transparent p-5 opacity-0 transition duration-300 group-hover:opacity-100">
+                      <p className="text-lg font-medium">{game.title}</p>
+
+                      {(game.platform || game.year) && (
+                        <p className="mt-1 text-xs uppercase tracking-[0.15em] text-white/50">
+                          {[game.year, game.platform]
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </p>
+                      )}
+
+                      {game.myOpinion && (
+                        <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-white/60">
+                          {game.myOpinion}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {filteredGames.length === 0 && (
+            <div className="border-t border-white/10 py-16">
+              <p className="text-sm uppercase tracking-[0.2em] text-white/25">
+                No games yet.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Slide 03 — Next Up */}
-      <section className="flex min-h-screen snap-start items-center px-6 py-32">
+      <section className="min-h-screen snap-start px-6 py-32">
         <div className="mx-auto w-full max-w-7xl">
           <p className="text-xs uppercase tracking-[0.3em] text-white/30">
             Queue
@@ -109,48 +158,86 @@ export default function GamesPage() {
           </h2>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/40">
-            Games waiting for their turn.
+            Games sitting on my list.
           </p>
 
           <div className="mt-16 border-t border-white/10">
-            {games.nextUp.length > 0 ? (
-              games.nextUp.map((game, index) => (
-                <div
-                  key={`${game.title}-${index}`}
-                  className="group grid gap-6 border-b border-white/10 py-8 transition hover:bg-white/[0.03] md:grid-cols-[80px_1fr_auto] md:items-center"
-                >
-                  <span className="text-sm text-white/25">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+            {games.nextUp.map((game, index) => (
+              <div
+                key={`${game.title}-${index}`}
+                className="group grid gap-6 border-b border-white/10 py-8 transition hover:bg-white/[0.03] md:grid-cols-[80px_1fr_auto] md:items-center"
+              >
+                <span className="text-sm text-white/25">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
 
-                  <div>
-                    <h3 className="text-2xl font-medium tracking-tight transition group-hover:translate-x-2 md:text-4xl">
-                      {game.title}
-                    </h3>
+                <div>
+                  <h3 className="text-2xl font-medium tracking-tight transition group-hover:translate-x-2 md:text-4xl">
+                    {game.title}
+                  </h3>
 
-                    <p className="mt-2 text-xs uppercase tracking-[0.2em] text-white/30">
-                      {[game.platform, game.year].filter(Boolean).join(" · ")}
-                    </p>
-                  </div>
-
-                  <span className="text-sm text-white/25">→</span>
+                  <p className="mt-2 text-xs uppercase tracking-[0.2em] text-white/30">
+                    {[game.year, game.platform, game.genre]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
                 </div>
-              ))
-            ) : (
-              <div className="py-12 text-sm text-white/25">
-                Nothing queued yet.
+
+                <span className="text-sm text-white/25">→</span>
               </div>
-            )}
+            ))}
           </div>
 
-          <Link
-            href="/personal"
-            className="mt-12 inline-block text-sm text-white/35 transition hover:text-white"
-          >
-            ← Back to Personal
-          </Link>
+          {games.nextUp.length === 0 && (
+            <div className="border-b border-white/10 py-8">
+              <p className="text-sm uppercase tracking-[0.2em] text-white/25">
+                Nothing queued yet.
+              </p>
+            </div>
+          )}
         </div>
       </section>
+
+      {/* Game Modal */}
+      {selectedGameData && (
+        <>
+          <img
+            src={selectedGameData.poster}
+            alt={selectedGameData.title}
+            className="h-full w-full object-cover"
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+
+          <div className="absolute inset-x-0 bottom-0 p-8">
+            <p className="mb-2 text-xs uppercase tracking-[0.25em] text-white/50">
+              {selectedGameData.year}
+              {selectedGameData.platform && ` · ${selectedGameData.platform}`}
+            </p>
+
+            <h2 className="text-4xl font-semibold">{selectedGameData.title}</h2>
+
+            {selectedGameData.genre && (
+              <p className="mt-2 text-sm text-white/60">
+                {selectedGameData.genre}
+              </p>
+            )}
+
+            {selectedGameData.myRating && (
+              <div className="mt-5 text-lg">
+                {"★".repeat(selectedGameData.myRating)}
+                {"☆".repeat(5 - selectedGameData.myRating)}
+              </div>
+            )}
+
+            {selectedGameData.myOpinion && (
+              <p className="mt-4 max-w-xl text-sm italic text-white/60">
+                “{selectedGameData.myOpinion}”
+              </p>
+            )}
+          </div>
+        </>
+      )}
     </main>
   );
 }
