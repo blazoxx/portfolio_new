@@ -17,17 +17,11 @@ export default function GamesPage() {
     };
   }, [selectedGame]);
 
-  const filteredGames = useMemo(() => {
-    const query = search.toLowerCase().trim();
+  const loadedGames = useGameData(games.played);
 
-    return games.played.filter((game) => {
-      if (!query) return true;
-
-      return `${game.title} ${game.platform ?? ""} ${game.genre ?? ""}`
-        .toLowerCase()
-        .includes(query);
-    });
-  }, [search]);
+  const filteredGames = loadedGames.filter((game) =>
+    game.title.toLowerCase().includes(search.toLowerCase()),
+  );
 
   useEffect(() => {
     document.body.style.overflow = selectedGame ? "hidden" : "";

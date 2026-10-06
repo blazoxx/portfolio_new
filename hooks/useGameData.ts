@@ -7,36 +7,49 @@ export type GameData = GameItem & {
   details?: string;
 };
 
-export function useGameData(game: GameItem | null) {
-  const [loaded, setLoaded] = useState<{
-    title: string;
-    data: GameData;
-  } | null>(() => (game ? { title: game.title, data: game } : null));
+export function useGameData(
+  game: GameItem | null,
+): GameData | null;
+
+export function useGameData(
+  game: GameItem[],
+): GameData[];
+
+export function useGameData(
+  game: GameItem | GameItem[] | null,
+) {
+  const [loaded, setLoaded] = useState<GameData[]>(() => {
+    if (!game) {
+      return [];
+    }
+
+    return Array.isArray(game) ? game : [game];
+  });
 
   useEffect(() => {
     if (!game) {
       return;
     }
 
+    const games = Array.isArray(game) ? game : [game];
+
     let cancelled = false;
-    const selectedGame = game;
 
-    async function loadGame() {
-      try {
-        const response = await fetch(
-          `/api/games?title=${encodeURIComponent(selectedGame.title)}`,
-        );
+    async function loadGames() {
+      const results = await Promise.all(
+        games.map(async (selectedGame) => {
+          try {
+            const response = await fetch(
+              `/api/games?title=${encodeURIComponent(selectedGame.title)}`,
+            );
 
-        if (!response.ok) {
-          return;
-        }
+            if (!response.ok) {
+              return selectedGame;
+            }
 
-        const result = await response.json();
+            const result = await response.json();
 
-        if (!cancelled) {
-          setLoaded({
-            title: selectedGame.title,
-            data: {
+            return {
               ...selectedGame,
               title: result.title ?? selectedGame.title,
               year: result.year ?? selectedGame.year,
@@ -44,20 +57,36 @@ export function useGameData(game: GameItem | null) {
               platform: result.platform ?? selectedGame.platform,
               poster: result.poster ?? selectedGame.poster,
               details: result.details,
-            },
-          });
-        }
-      } catch {
-        // Keep original data if IGDB fails.
+            };
+          } catch {
+            return selectedGame;
+          }
+        }),
+      );
+
+      if (!cancelled) {
+        setLoaded(results);
       }
     }
 
-    loadGame();
+    loadGames();
 
     return () => {
       cancelled = true;
     };
   }, [game]);
 
-  return game && loaded?.title === game.title ? loaded.data : game;
+  if (!game) {
+    return null;
+  }
+
+  if (Array.isArray(game)) {
+    return loaded;
+  }
+
+  const selected = loaded.find(
+    (item) => item.title === game.title,
+  );
+
+  return selected ?? game;
 }
