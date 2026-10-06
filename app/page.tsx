@@ -177,7 +177,7 @@ export default function Home() {
               </p>
             </Link>
             <Link
-              href="/personal/movies-tv"
+              href="/personal/movies"
               className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]"
             >
               <p className="text-lg">Movies & TV</p>
