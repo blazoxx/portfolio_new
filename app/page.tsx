@@ -6,6 +6,8 @@ import HomeSitemap from "@/components/home/HomeSitemap";
 import ProjectsSection from "@/components/home/ProjectsSection";
 import CircleLanding from "@/components/home/CircleLanding";
 import HomeAbout from "@/components/about/HomeAbout";
+import { profile } from "@/data/profile";
+import Link from "next/link";
 
 const sections = [
   { id: "projects", label: "Projects" },
@@ -17,7 +19,7 @@ const sections = [
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("projects");
-  const [showSitemap, setShowSitemap] = useState(false);
+  const [sitemapOpacity, setSitemapOpacity] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -56,16 +58,42 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       const projects = document.getElementById("projects");
+      const footer = document.getElementById("site-footer");
 
-      if (!projects) return;
+      if (!projects || !footer) return;
 
-      setShowSitemap(window.scrollY >= projects.offsetTop);
+      const viewportHeight = window.innerHeight;
+
+      // Projects fade-in
+      const projectsTop = projects.getBoundingClientRect().top;
+
+      const projectsVisibleHeight = Math.max(0, viewportHeight - projectsTop);
+
+      const projectsFade = Math.min(
+        1,
+        projectsVisibleHeight / (viewportHeight * 0.5),
+      );
+
+      // Footer fade-out
+      const footerTop = footer.getBoundingClientRect().top;
+
+      const footerVisibleHeight = Math.max(0, viewportHeight - footerTop);
+
+      const footerFade = Math.min(
+        1,
+        footerVisibleHeight / (viewportHeight * 0.5),
+      );
+
+      setSitemapOpacity(projectsFade * (1 - footerFade));
     };
 
     handleScroll();
+
     window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -73,7 +101,7 @@ export default function Home() {
       <HomeSitemap
         sections={sections}
         activeSection={activeSection}
-        visible={showSitemap}
+        opacity={sitemapOpacity}
       />
 
       <div className="relative h-[250vh]">
@@ -83,7 +111,7 @@ export default function Home() {
       <ProjectsSection />
 
       <HomeAbout />
-      
+
       <HomeSection id="skills" className="relative z-20 bg-black">
         <div className="w-full">
           <p className="mb-6 text-sm uppercase tracking-[0.3em] text-white/40">
@@ -139,29 +167,38 @@ export default function Home() {
           </p>
 
           <div className="mt-16 grid grid-cols-2 gap-6 md:grid-cols-4">
-            <div className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]">
+            <Link
+              href="/personal/music"
+              className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]"
+            >
               <p className="text-lg">Music</p>
               <p className="mt-2 text-sm text-white/30">
                 What&apos;s on repeat
               </p>
-            </div>
-
-            <div className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]">
+            </Link>
+            <Link
+              href="/personal/movies-tv"
+              className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]"
+            >
               <p className="text-lg">Movies & TV</p>
               <p className="mt-2 text-sm text-white/30">
                 Things worth watching
               </p>
-            </div>
-
-            <div className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]">
+            </Link>
+            <Link
+              href="/personal/games"
+              className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]"
+            >
               <p className="text-lg">Games</p>
               <p className="mt-2 text-sm text-white/30">Worlds I get lost in</p>
-            </div>
-
-            <div className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]">
+            </Link>
+            <Link
+              href="/personal/books"
+              className="border border-white/10 p-6 transition hover:-translate-y-1 hover:bg-white/[0.03]"
+            >
               <p className="text-lg">Books</p>
               <p className="mt-2 text-sm text-white/30">Ideas I keep around</p>
-            </div>
+            </Link>
           </div>
           <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-6">
             <span className="text-xs uppercase tracking-[0.25em] text-white/25">
@@ -194,17 +231,27 @@ export default function Home() {
 
           <div className="mt-12 flex flex-wrap gap-8 text-sm uppercase tracking-[0.2em]">
             <a
-              href="mailto:your@email.com"
+              href={`mailto:${profile.email}`}
               className="text-white/50 transition hover:text-white"
             >
               Email
             </a>
 
-            <a href="#" className="text-white/50 transition hover:text-white">
+            <a
+              href={profile.socials.github}
+              target="_blank"
+              rel="noreferrer"
+              className="text-white/50 transition hover:text-white"
+            >
               GitHub
             </a>
 
-            <a href="#" className="text-white/50 transition hover:text-white">
+            <a
+              href={profile.socials.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="text-white/50 transition hover:text-white"
+            >
               LinkedIn
             </a>
           </div>

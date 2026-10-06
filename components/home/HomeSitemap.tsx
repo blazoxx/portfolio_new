@@ -1,21 +1,17 @@
-type HomeSection = {
-  id: string;
-  label: string;
-};
-
 type HomeSitemapProps = {
-  sections: HomeSection[];
+  sections: {
+    id: string;
+    label: string;
+  }[];
   activeSection: string;
-  visible: boolean;
+  opacity: number;
 };
 
 export default function HomeSitemap({
   sections,
   activeSection,
-  visible,
+  opacity,
 }: HomeSitemapProps) {
-  if (!visible) return null;
-
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({
       behavior: "smooth",
@@ -24,10 +20,16 @@ export default function HomeSitemap({
   };
 
   return (
-    <aside className="pointer-events-none fixed inset-y-0 left-0 z-100 flex items-center">
+    <aside
+      className="pointer-events-none fixed inset-y-0 left-0 z-100 flex items-center"
+      style={{
+        opacity,
+        pointerEvents: opacity === 0 ? "none" : "auto",
+      }}
+    >
       <div className="pointer-events-auto relative ml-6 flex flex-col gap-8">
         <div className="absolute left-0.75 top-1 bottom-1 w-px bg-white/15" />
-        
+
         {sections.map((section) => {
           const active = section.id === activeSection;
 
