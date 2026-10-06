@@ -202,7 +202,7 @@ export default function BooksPage() {
       </section>
 
       {/* Book Modal */}
-      {selectedBookData && (
+      {selectedBookData && !Array.isArray(selectedBookData) && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4">
           <div className="relative h-[92vh] w-full max-w-5xl overflow-hidden border border-white/10 bg-black">
             <button
