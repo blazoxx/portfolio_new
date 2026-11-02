@@ -40,7 +40,7 @@ export default function ContactPage() {
             Reach me
           </p>
 
-          <div className="space-y-8">
+          <div className="space-y-8 gap-2 flex flex-col">
             <a href={`mailto:${profile.email}`}>{profile.email}</a>
 
             <div className="flex flex-wrap gap-x-8 gap-y-4 text-sm uppercase tracking-[0.2em] text-white/30">
@@ -56,9 +56,9 @@ export default function ContactPage() {
                 LinkedIn
               </a>
 
-              <a href="#" className="transition hover:text-white">
+              {/* <a href="#" className="transition hover:text-white">
                 X / Twitter
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
